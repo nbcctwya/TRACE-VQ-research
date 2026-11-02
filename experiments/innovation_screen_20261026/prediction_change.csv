@@ -1,0 +1,13 @@
+universe,variant,days,note,score_Pearson_to_baseline,score_Spearman_to_baseline,normalized_score_RMSE,nominal_Top30_overlap
+csi300,ic_loss,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.9820583669659689,0.9792029629650527,0.3027957827576802,0.8480055020632737
+csi300,market_direct,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.8966202554129368,0.8818231527708708,0.6655742577706087,0.6881705639614856
+csi300,market_route,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.9991262330913182,0.998923616820138,0.03774090919173263,0.9806052269601102
+csi300,multihorizon,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.9997373685612443,0.9995588021433879,0.04003868984266568,0.9764786795048145
+csi300,pairwise_loss,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.7570462975963251,0.7473754874717328,0.7834113004225625,0.5022466758367721
+csi300,sparse_prior,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.7859871200152644,0.7812805758966164,0.7541963109728159,0.519440623567171
+csi800,ic_loss,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.9889351331324994,0.9874176396639529,0.19167183372546,0.8183402109124254
+csi800,market_direct,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.7982936546942371,0.7625392937586758,0.8168717099132873,0.3845942228335626
+csi800,market_route,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.9997904405537694,0.9997443070287069,0.020519001977399795,0.971939477303989
+csi800,multihorizon,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.9968695900840973,0.9967072448633767,0.14361961344133428,0.8834938101788171
+csi800,pairwise_loss,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.9945066061406754,0.9952602662038691,0.25928563407693167,0.8742320036680422
+csi800,sparse_prior,727,"Score similarity and nominal daily Top30 overlap; actual portfolio also follows Drop5, tradability, and cost rules.",0.9953571103431335,0.9945078427037564,0.12899337870408112,0.8764786795048144

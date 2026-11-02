@@ -1,0 +1,9 @@
+{
+  "status": "complete",
+  "comparison": "FSQ+RankNet vs FSQ, paired Stage2 seed",
+  "mean": {
+    "daily_rank_correlation": 0.8886185635260256,
+    "actual_holdings_overlap": 0.7174057775888484,
+    "daily_return_correlation": 0.9630289544384736
+  }
+}

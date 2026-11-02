@@ -1,0 +1,15 @@
+batch,description,universes,seeds,records,finding,readme
+innovation_screen_20261026,首轮创新筛选,CSI300 / CSI800,Stage 2: 0,14 条（含 2 条基线）,检验市场特征、排序损失、多预测期与先验门控。CSI800 的 IC/Pairwise 候选进入后续研究；其余结果和负结果均保留。,innovation_screen_20261026/README.md
+next_directions_20261027,第二轮方向筛选,CSI300 / CSI800,Stage 2: 0,26 条（含 4 条复用对照）,检验 RankNet、换手约束、软路由、历史状态及 RVQ/FSQ。新增 Stage 2 训练 22 次、Stage 1 训练 6 次；一次资源中断已恢复。,next_directions_20261027/README.md
+mechanism_screen_20261028,机制与空对照,CSI300 / CSI800,Stage 2: 0,20 条（含 6 条复用对照）,检验连续历史、错配历史、载荷平滑、peer 关系与状态均衡。最终审查没有从本轮新方向中晋级候选；脚本的 promising 标签不能代替最终审查。,mechanism_screen_20261028/README.md
+combination_screen_20261029,七种组件组合,CSI300 / CSI800,Stage 2: 0,24 条（含 10 条复用对照）,FSQ+RankNet 在单 seed 双股票池比较中较好，后续已做多 seed 验证。新增组合共 14 次 Stage 2 训练。,combination_screen_20261029/README.md
+multiseed_validation_20261030,A 股五 seed 验证,CSI300 / CSI800,Stage 2: 0–4,40 条（24 次新训练、16 条复用）,比较基线、FSQ、RankNet 和 FSQ+RankNet。CSI800 的 FSQ/组合较有希望；CSI300 没有同时改善所有主要指标的候选。Stage 1 固定 seed 42。,multiseed_validation_20261030/README.md
+sp500_multiseed_20261031,SP500 基线,SP500,Stage 2: 0–4,5 条,新训练一个 Stage 1（seed 42），再训练五个 Stage 2。平均净年化约 7.72%，但 RankIC 接近零。,sp500_multiseed_20261031/README.md
+sp500_candidates_multiseed_20261031,SP500 候选五 seed 验证,SP500,Stage 2: 0–4,20 条（15 次新训练、5 条复用基线）,FSQ、RankNet、FSQ+RankNet 各五 seeds，另训练一个共享的 FSQ Stage 1（seed 42）。未观察到稳定的综合优势。,sp500_candidates_multiseed_20261031/README.md
+historical_csi300_ablations,历史 CSI300 全模型与三种消融,CSI300,Stage 1: 42; Stage 2: 0–4,20 条 seed 结果；另有预测集成汇总,025=wo_ta，034=full，037=wo_ca，038=wo_sr。保留归档指标。,historical_csi300_ablations/README.md
+historical_csi800_baseline,历史 CSI800 基线,CSI800,Stage 1: 42; Stage 2: 0–4,5 条,后续 A 股多 seed 实验复用了这些基线；seed 1–4 的历史验证集指标没有完整保留。,historical_csi800_baseline/README.md
+historical_stage1_multiseed,Stage 1 多 seed、Stage 2 固定,CSI300,Stage 1: 0–4; Stage 2: 42,5 条,这是 Stage 1 随机性的历史补充实验，与固定 Stage 1 的候选多 seed 验证不同。,historical_stage1_multiseed/README.md
+historical_full_pipeline_multiseed,两阶段都重训的多 seed 实验,CSI300,Stage 1 = Stage 2: 0–4,5 条；另有集成结果,每个 seed 都从头训练 Stage 1，再训练同 seed 的 Stage 2。,historical_full_pipeline_multiseed/README.md
+sp500_baseline_protocol_20261031,SP500 基线口径与集成复核,SP500,0–4 和平均预测,6 次回测；无新训练,复核五个独立 seed 及其平均预测集成。集成净年化约 5.86%，不能用基线五 seed 均值 7.72% 代替。,sp500_baseline_protocol_20261031/README.md
+sp500_protocol_recheck_20261031_203648,SP500 回测指标复核,SP500,0–4 和平均预测,6 个回放案例；无新训练,保留指标边界、报价策略敏感性及其他既有模型的指标口径检查汇总。,sp500_protocol_recheck_20261031_203648/README.md
+sp500_effect_diagnosis_20261101,SP500 预测、梯度与市场暴露诊断,SP500,已有 20 个 seed 模型,无新训练,RankNet 有非零梯度；抽样参数梯度范数约为 MSE 的 2.4%，不是损失未生效。FSQ 明显改变预测排序，但组合日收益仍高度相关。,sp500_effect_diagnosis_20261101/README.md

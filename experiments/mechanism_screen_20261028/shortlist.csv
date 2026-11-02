@@ -1,0 +1,13 @@
+cohort,universe,variant,manual_role,valid_RankIC,RankIC,AR,Sharpe,MDD,precommitted_decision,precommitted_retention,reason
+priority_or_tradeoff,csi800,history_gru,优先研究：收益风险均衡,0.0539784259330757,0.0570344182873476,0.1371208468919195,0.8960736635280132,-0.1803706711957206,promising,baseline_gain_primary_mixed,四项测试指标均优于连续历史、错配历史两个新对照，也优于原始基线。
+priority_or_tradeoff,csi800,turnover,保留：收益优先,0.0559919765784033,0.0532128455415908,0.1915952221181893,1.0363670880970626,-0.216071923871601,mixed,portfolio_tradeoff,CSI800 已测方法中净年化、Sharpe 最高。
+priority_or_tradeoff,csi800,peer_market,本轮保留：排序优先的竞争方案,0.0637580770800557,0.058336897380707,0.1013606704985824,0.5799208217817615,-0.2734959096133517,promising,retained_competitive_control,CSI800 的 25 个已测配置中，验证和测试 RankIC 均为最高。该配置最初设计为全市场聚合对照。
+priority_or_tradeoff,csi300,market_route,沿用：收益优先,0.0594746656580008,0.0566851680900679,0.1981180557305141,1.1585048925379846,-0.1740586875895603,mixed,retain_portfolio_tradeoff,CSI300 已测方法中净年化、Sharpe 最高。
+priority_or_tradeoff,csi300,fsq,沿用：回撤优先,0.056933141960924,0.0570219200257131,0.1802710509228785,1.1167549723267318,-0.1168417122242958,mixed,portfolio_tradeoff,CSI300 已测方法中全区间最大回撤最低。
+priority_or_tradeoff,csi300,turnover,沿用：排序优先的取舍方案,0.0693784144904156,0.0639847634799271,0.1655825482209982,0.9770930132406944,-0.2027749306809186,mixed,ranking_tradeoff,CSI300 已测非执行对照方法中验证和测试 RankIC 最高。
+new_direction_outcome,csi300,beta_smooth,不优先：匹配对照未通过,0.0667913239525818,0.0596195990325431,0.1173579356162707,0.6772463142752528,-0.2464105806097392,mixed,ranking_tradeoff,测试排序及三项金融指标均弱于同样双次前向的零惩罚对照。
+new_direction_outcome,csi800,beta_smooth,不优先：匹配对照未通过,0.0533082221919169,0.0544407666868703,0.0968652583056645,0.5522866206994786,-0.2754213880904758,mixed,portfolio_tradeoff,测试排序及三项金融指标均弱于零惩罚对照；也被旧量化历史 GRU 五项点估计支配。
+new_direction_outcome,csi300,peer_code,不优先：自身特征对照未通过,0.0567961101759901,0.052204973774308,0.1062397665064483,0.6360669763564054,-0.2322541595209487,underperforming,do_not_promote,排序弱于自身特征对照，金融指标弱于两种相同容量对照及基线。
+new_direction_outcome,csi800,peer_code,保留负结果及金融取舍,0.0531829336685581,0.0535892234793152,0.1078231815906571,0.6367163997141674,-0.2445602691104844,mixed,portfolio_tradeoff,金融指标好于两个聚合对照，但验证和测试排序更差；旧量化历史 GRU 五项点估计均更好。
+new_direction_outcome,csi300,state_balanced,保留排序取舍，暂不优先,0.0561574550588367,0.0580804206814767,0.1604864778963111,0.9801834258401048,-0.1950589737280738,mixed,ranking_tradeoff,测试 RankIC 略升，验证 RankIC 及三项金融指标弱于原始基线；仍在五指标点估计 Pareto 集中。
+new_direction_outcome,csi800,state_balanced,保留金融取舍，暂不优先,0.0530850035075405,0.0554267268936209,0.0874300746315641,0.5114241034508598,-0.2883988397671345,mixed,portfolio_tradeoff,相对基线收益、Sharpe 和测试 RankIC 略升，但验证排序及回撤恶化；旧量化历史 GRU 五项点估计均更好。

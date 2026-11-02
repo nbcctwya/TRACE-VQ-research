@@ -1,0 +1,12 @@
+# @package _global_
+# HVQ 025: w/o TA, original GRU + CA + SR. Historical baseline Stage 1.
+artifact_root: artifacts/new_runs/wo_ta
+data:
+  data_path: ${oc.env:TRACE_VQ_DATA_ROOT,../HVQ-Stock/dataset/processed}
+vqvae:
+  encoder:
+    type: gru
+predictor:
+  saved_model: ${oc.env:TRACE_VQ_STAGE1_GRU_CHECKPOINT,'${oc.env:TRACE_VQ_ROOT,.}/artifacts/baseline/run/checkpoints/infucsi300_h128_VQK512_C128_emb128_dl2p10_s42-epoch=7-val_loss=0.5712.ckpt'}
+  shared_expert: true
+  quantization_confidence_adapter: true

@@ -1,0 +1,33 @@
+{
+  "completed_models": 24,
+  "technical_failures": 0,
+  "unresolved_technical_failures": 0,
+  "recovered_resource_interruptions": 0,
+  "promising": [
+    {
+      "universe": "csi800",
+      "variant": "fsq"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_pairwise"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_ranknet"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_route_pairwise"
+    },
+    {
+      "universe": "csi800",
+      "variant": "pairwise_loss"
+    },
+    {
+      "universe": "csi800",
+      "variant": "route_pairwise"
+    }
+  ],
+  "note": "Single seed. Candidate labels combine validation/test ranking and net portfolio metrics; not a statistical significance claim."
+}

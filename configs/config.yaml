@@ -1,0 +1,138 @@
+defaults:
+  - _self_
+  - experiment: null
+
+# Optional artifact isolation root (execution-layer parameter).
+# When set, e.g. `artifact_root=artifacts/my_run`, all run artifacts are
+# redirected under it: <artifact_root>/checkpoints (incl. wandb files) and
+# <artifact_root>/res (predictions/metrics). Stage 2 also resolves a relative
+# `predictor.saved_model` against the effective checkpoint dir, so it loads
+# Stage 1 checkpoints from the same artifact root.
+# null (default) keeps the original project-level checkpoints/ and res/.
+artifact_root: null
+
+vqvae:
+  num_features: 158
+  seq_len: 20 
+  hidden_size: 128     
+  num_prior_factors: 13  
+  vq_embed_dim: 128   
+  num_embed: 512    
+
+  encoder:
+    type: 'temporal-attention'
+    num_heads: 2 
+    num_layers: 1
+    temporal_dropout: 0.1
+
+  quantizer:
+    decay: 0.95
+    commit_weight: 0.25
+    distance: 'l2'
+    anchor: 'probrandom'
+    first_batch: False
+    contras_loss: True
+
+  decoder:
+    norm_type: 'none'
+    num_groups: 8
+    hidden_channels: 128
+    initial_T: 5
+
+  predictor:
+    pred_len: 10 
+    num_gru_layers: 1
+    dropout: 0.1 
+    output_dim: 1
+    pred_weight: 0.0001
+
+data:
+  universe: 'csi300'
+  data_path: 'dataset/processed'
+  window_size: 20
+  step: 1
+  train_period : ["2009-01-01", "2020-12-31"]  # 12 years
+  valid_period : ["2021-01-01", "2022-12-31"]  # 2 years
+  test_period  : ["2023-01-01", "2025-12-31"]  # 3 years
+
+stage2_presets:
+  csi800:
+    predictor:
+      aux_weight: 0.01
+      n_expert: 2
+      transformer:
+        num_heads: 2
+  csi300:
+    predictor:
+      aux_weight: 0.01
+      n_expert: 2
+      transformer:
+        num_heads: 2
+  sp500:
+    predictor:
+      aux_weight: 0.001
+      n_expert: 8
+      transformer:
+        num_heads: 4
+
+predictor: 
+  saved_model: "???"
+  num_features: 158
+  individual: False
+  aux_weight: 0.01
+
+  kernel_size: 3
+  k: ${half:${predictor.n_expert}} 
+  n_expert: 2
+  pred_len: 20  
+  moe_hidden: 64 
+  shared_expert: true  # 010: always-on zero-initialized residual expert
+  dropout: 0.1
+
+  transformer:
+    pe_kind: 'rope'
+    num_heads: 2
+    num_layers: 1
+    d_model: 64   
+    dim_feedforward: 128
+    dropout: 0.1 
+    batch_first: True
+    prepend_structure_token: True
+ 
+  rank : 0
+  target_day: 5
+  use_prior: True
+  aux_imp: 3
+  # 025: 019 quantization-confidence adapter on top of 010 shared-routed MoE
+  quantization_confidence_adapter: true
+  
+train:
+  seed: 0 # 
+  device: "cuda"
+  batch_size: 300 
+  learning_rate: 0.0001 
+  num_epochs: 70
+  project_name: "TRACE-VQ"
+  wandb_mode: "offline"
+  run_name: "auto"
+  gpu_counts: 1
+  precision: 32 
+  num_workers: 4
+  gradient_clip_val: 1
+  save_dir: "checkpoints"
+  save_res: "res"
+  early_stopping:
+    monitor: "val_loss"
+    min_delta: 0.00001
+    patience: 15
+    verbose: True
+    mode: "min"
+
+# Keep Hydra logs/config snapshots inside this project, even from another cwd.
+hydra:
+  run:
+    dir: ${oc.env:TRACE_VQ_ROOT,.}/outputs
+  sweep:
+    dir: ${oc.env:TRACE_VQ_ROOT,.}/multirun
+  job:
+    chdir: false

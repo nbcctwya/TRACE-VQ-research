@@ -1,0 +1,33 @@
+variant,description,settings,implementation
+baseline,TRACE-VQ 原始全模型对照。,{},trace_vq/training/prediction.py
+beta_smooth,加入因子载荷的相邻日平滑约束。,"{""beta_rms_epsilon"": 1e-06, ""beta_smooth_weight"": 0.05, ""paired_days"": true, ""pairwise_weight"": 0.1, ""turnover_weight"": 0.0}",trace_vq/models/mechanism_screen.py
+fsq,"有限标量量化 levels=[8,8,8]，重新训练 Stage 1。","{""levels"": [8, 8, 8], ""quantizer_kind"": ""fsq""}",trace_vq/models/next_screen.py
+fsq_pairwise,FSQ + Pairwise。,"[""fsq"", ""pairwise_loss""]",trace_vq/models/combination_screen.py
+fsq_ranknet,FSQ + RankNet。,"[""fsq"", ""ranknet""]",trace_vq/models/combination_screen.py
+fsq_route,FSQ + 市场路由。,"[""fsq"", ""market_route""]",trace_vq/models/combination_screen.py
+fsq_route_pairwise,FSQ + 市场路由 + Pairwise。,"[""fsq"", ""market_route"", ""pairwise_loss""]",trace_vq/models/combination_screen.py
+fsq_route_ranknet,FSQ + 市场路由 + RankNet。,"[""fsq"", ""market_route"", ""ranknet""]",trace_vq/models/combination_screen.py
+history_continuous,以连续表示替换历史离散表示。,"{""history"": ""gru"", ""history_days"": 20, ""history_feature"": ""continuous"", ""history_hidden"": 32}",trace_vq/models/mechanism_screen.py
+history_gru,用 GRU 编码过去 20 日的离散表示。,"{""history"": ""gru"", ""history_days"": 20, ""history_hidden"": 32}",trace_vq/models/mechanism_screen.py
+history_mean,对过去 20 日的离散表示取历史均值。,"{""history"": ""mean"", ""history_days"": 20}",trace_vq/models/next_screen.py
+history_mismatched,使用错配历史作为机制空对照。,"{""history"": ""gru"", ""history_days"": 20, ""history_hidden"": 32, ""history_mismatch"": true}",trace_vq/models/mechanism_screen.py
+ic_loss,训练时加入 IC 目标，权重 0.1。,"{""ic_weight"": 0.1}",trace_vq/models/screening.py
+market_direct,直接加入市场特征与股票表示的交互收益项。,"{""market_conditioning"": ""direct""}",trace_vq/models/screening.py
+market_route,市场特征通过零初始化残差影响专家路由。,"{""market_conditioning"": ""route""}",trace_vq/models/screening.py
+multihorizon,增加第 2、3、10 标签的辅助监督，主目标仍为第 5 标签。,"{""auxiliary_horizons"": [2, 3, 10], ""multihorizon_weight"": 0.1}",trace_vq/models/screening.py
+pairwise_loss,训练时加入 Pairwise 排序目标，权重 0.1。,"{""pairwise_weight"": 0.1}",trace_vq/models/screening.py
+peer_code,使用量化码分组的 peer 信息。,"{""peer"": ""code""}",trace_vq/models/mechanism_screen.py
+peer_market,使用市场 peer 信息。,"{""peer"": ""market""}",trace_vq/models/mechanism_screen.py
+peer_self,peer 模块的 self 对照。,"{""peer"": ""self""}",trace_vq/models/mechanism_screen.py
+ranknet,加入 RankNet 目标，权重 0.1。,"{""ranknet_weight"": 0.1}",trace_vq/models/next_screen.py
+route_pairwise,市场路由 + Pairwise。,"[""market_route"", ""pairwise_loss""]",trace_vq/models/combination_screen.py
+route_ranknet,市场路由 + RankNet。,"[""market_route"", ""ranknet""]",trace_vq/models/combination_screen.py
+rvq_256x256,使用两个 256 码字的残差量化器，重新训练 Stage 1。,"{""quantizer_kind"": ""rvq"", ""sizes"": [256, 256]}",trace_vq/models/next_screen.py
+rvq_32x16,使用 32 与 16 码字的残差量化器，重新训练 Stage 1。,"{""quantizer_kind"": ""rvq"", ""sizes"": [32, 16]}",trace_vq/models/next_screen.py
+soft_market,同时使用软路由与市场条件。,"{""market_conditioning"": ""route"", ""soft_route"": true}",trace_vq/models/next_screen.py
+soft_route,以软路由替代原始稀疏路由。,"{""soft_route"": true}",trace_vq/models/next_screen.py
+sparse_prior,先验因子门控及门控惩罚。,"{""prior_gate"": true, ""prior_gate_penalty"": 0.001}",trace_vq/models/screening.py
+state_balanced,用训练期确定的市场状态分组进行均衡。,"{""state_balanced"": true}",trace_vq/models/mechanism_screen.py
+top_ranknet,提高涉及 top-30 股票的 RankNet 成对权重。,"{""ranknet_weight"": 0.1, ""top_pair_boost"": 2.0, ""topk"": 30}",trace_vq/models/next_screen.py
+turnover,配对相邻日训练并加入换手惩罚。,"{""paired_days"": true, ""pairwise_weight"": 0.1, ""turnover_weight"": 0.05}",trace_vq/models/next_screen.py
+turnover_control,配对相邻日的训练方式，换手惩罚为零的空对照。,"{""paired_days"": true, ""pairwise_weight"": 0.1, ""turnover_weight"": 0.0}",trace_vq/models/mechanism_screen.py

@@ -1,0 +1,15 @@
+{
+  "metric_boundary_checks": 30,
+  "metric_boundary_checks_passed": true,
+  "existing_SP500_models_checked": 10,
+  "existing_SP500_portfolio_values_checked": 60,
+  "existing_SP500_metric_conventions_passed": true,
+  "original_pre_import_preservation_passed": true,
+  "original_pre_import_files": 335,
+  "maximum_replay_daily_error": 1.1882855810441129e-15,
+  "files": {
+    "boundary": "metric_boundary_checks.json",
+    "published_SP500": "other_published_results_metric_conventions.json",
+    "original_preservation": "original_import_preservation.json"
+  }
+}

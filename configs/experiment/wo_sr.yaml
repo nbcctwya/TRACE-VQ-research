@@ -1,0 +1,12 @@
+# @package _global_
+# HVQ 038: TA + CA, routed experts retained and shared expert absent.
+artifact_root: artifacts/new_runs/wo_sr
+data:
+  data_path: ${oc.env:TRACE_VQ_DATA_ROOT,../HVQ-Stock/dataset/processed}
+vqvae:
+  encoder:
+    type: temporal-attention
+predictor:
+  saved_model: ${oc.env:TRACE_VQ_STAGE1_TA_CHECKPOINT,'${oc.env:TRACE_VQ_ROOT,.}/artifacts/028/run/checkpoints/infucsi300_h128_VQK512_C128_emb128_dl2p10_s42-epoch=5-val_loss=0.5865.ckpt'}
+  shared_expert: false
+  quantization_confidence_adapter: true

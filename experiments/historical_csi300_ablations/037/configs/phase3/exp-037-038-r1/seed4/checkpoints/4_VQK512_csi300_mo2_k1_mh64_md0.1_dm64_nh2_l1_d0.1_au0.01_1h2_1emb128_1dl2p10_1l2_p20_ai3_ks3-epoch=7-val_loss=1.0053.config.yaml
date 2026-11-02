@@ -1,0 +1,108 @@
+artifact_root: null
+data:
+  data_path: ${oc.env:TRACE_VQ_DATA_ROOT,../HVQ-Stock/dataset/processed}
+  step: 1
+  test_period:
+  - '2023-01-01'
+  - '2025-12-31'
+  train_period:
+  - '2009-01-01'
+  - '2020-12-31'
+  universe: csi300
+  valid_period:
+  - '2021-01-01'
+  - '2022-12-31'
+  window_size: 20
+predictor:
+  aux_imp: 3
+  aux_weight: 0.01
+  dropout: 0.1
+  individual: false
+  k: 1
+  kernel_size: 3
+  moe_hidden: 64
+  n_expert: 2
+  num_features: 158
+  pred_len: 20
+  rank: 0
+  saved_model: ${oc.env:TRACE_VQ_ROOT,.}/artifacts/028/run/checkpoints/infucsi300_h128_VQK512_C128_emb128_dl2p10_s42-epoch=5-val_loss=0.5865.ckpt
+  shared_expert: true
+  target_day: 5
+  transformer:
+    batch_first: true
+    d_model: 64
+    dim_feedforward: 128
+    dropout: 0.1
+    num_heads: 2
+    num_layers: 1
+    pe_kind: rope
+    prepend_structure_token: true
+  use_prior: true
+  vq_embed_dim: 128
+  quantization_confidence_adapter: false
+stage2_presets:
+  csi300:
+    predictor:
+      aux_weight: 0.01
+      n_expert: 2
+      transformer:
+        num_heads: 2
+  sp500:
+    predictor:
+      aux_weight: 0.001
+      n_expert: 8
+      transformer:
+        num_heads: 4
+train:
+  batch_size: 300
+  device: cuda
+  early_stopping:
+    min_delta: 1.0e-05
+    mode: min
+    monitor: val_loss
+    patience: 15
+    verbose: true
+  gpu_counts: 1
+  gradient_clip_val: 1
+  learning_rate: 0.0001
+  num_epochs: 70
+  num_workers: 4
+  precision: 32
+  project_name: TRACE-VQ
+  run_name: auto
+  save_dir: ${oc.env:TRACE_VQ_ROOT,.}/artifacts/037/phase3/exp-037-038-r1/seed4/checkpoints
+  save_res: ${oc.env:TRACE_VQ_ROOT,.}/artifacts/037/phase3/exp-037-038-r1/seed4/res
+  seed: 4
+  wandb_mode: offline
+vqvae:
+  decoder:
+    hidden_channels: 128
+    initial_T: 5
+    norm_type: none
+    num_groups: 8
+  encoder:
+    num_heads: 2
+    num_layers: 1
+    temporal_dropout: 0.1
+    type: temporal-attention
+  hidden_size: 128
+  num_embed: 512
+  num_features: 158
+  num_prior_factors: 13
+  predictor:
+    dropout: 0.1
+    num_gru_layers: 1
+    output_dim: 1
+    pred_len: 10
+    pred_weight: 0.0001
+  quantizer:
+    anchor: probrandom
+    commit_weight: 0.25
+    contras_loss: true
+    decay: 0.95
+    distance: l2
+    first_batch: false
+  seq_len: 20
+  vq_embed_dim: 128
+inference:
+  matmul_precision: highest

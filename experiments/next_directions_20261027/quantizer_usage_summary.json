@@ -1,0 +1,119 @@
+{
+  "runs": [
+    {
+      "universe": "csi300",
+      "variant": "rvq_256x256",
+      "stage1_seed": 42,
+      "selected_epoch_one_based": 2,
+      "completed_epochs": 17,
+      "learned_codewords": 512,
+      "possible_combinations": 65536,
+      "selected_epoch_training_assignments": {
+        "epoch": 1,
+        "used_codes": 27399,
+        "empirical_perplexity": 2414.069043232918,
+        "coarse_used": 256,
+        "fine_used": 256,
+        "combined_vocab_size": 65536
+      },
+      "checkpoint": "./artifacts/research/next_directions_20261027/stage1/csi300/rvq_256x256/checkpoints/seed42-epoch=1-val_loss=0.484997.ckpt",
+      "checkpoint_sha256": "407ff4727bb2ebe0e74aab9f2192fc9b83005959384fe2be2798de7bb159b11b"
+    },
+    {
+      "universe": "csi300",
+      "variant": "rvq_32x16",
+      "stage1_seed": 42,
+      "selected_epoch_one_based": 11,
+      "completed_epochs": 26,
+      "learned_codewords": 48,
+      "possible_combinations": 512,
+      "selected_epoch_training_assignments": {
+        "epoch": 10,
+        "used_codes": 512,
+        "empirical_perplexity": 444.09656744874883,
+        "coarse_used": 32,
+        "fine_used": 16,
+        "combined_vocab_size": 512
+      },
+      "checkpoint": "./artifacts/research/next_directions_20261027/stage1/csi300/rvq_32x16/checkpoints/seed42-epoch=10-val_loss=0.576583.ckpt",
+      "checkpoint_sha256": "5435f3167c4357e726ae5117c3760e798e411f77c779ce34eeb02a99a4a34f0c"
+    },
+    {
+      "universe": "csi300",
+      "variant": "fsq",
+      "stage1_seed": 42,
+      "selected_epoch_one_based": 26,
+      "completed_epochs": 41,
+      "learned_codewords": 0,
+      "possible_combinations": 512,
+      "selected_epoch_training_assignments": {
+        "epoch": 25,
+        "used_codes": 512,
+        "empirical_perplexity": 473.2342289899274
+      },
+      "checkpoint": "./artifacts/research/next_directions_20261027/stage1/csi300/fsq/checkpoints/seed42-epoch=25-val_loss=0.373578.ckpt",
+      "checkpoint_sha256": "04e72edccc31380aa30406b9e9eed2b14f35ad00ec0743f1e3065ca179519492"
+    },
+    {
+      "universe": "csi800",
+      "variant": "rvq_256x256",
+      "stage1_seed": 42,
+      "selected_epoch_one_based": 5,
+      "completed_epochs": 20,
+      "learned_codewords": 512,
+      "possible_combinations": 65536,
+      "selected_epoch_training_assignments": {
+        "epoch": 4,
+        "used_codes": 45600,
+        "empirical_perplexity": 13932.84423482029,
+        "coarse_used": 256,
+        "fine_used": 256,
+        "combined_vocab_size": 65536
+      },
+      "checkpoint": "./artifacts/research/next_directions_20261027/stage1/csi800/rvq_256x256/checkpoints/seed42-epoch=4-val_loss=0.487964.ckpt",
+      "checkpoint_sha256": "12a7992a8171c4624d83f343c93b51467182d0409c723080ce589643cf969e34"
+    },
+    {
+      "universe": "csi800",
+      "variant": "rvq_32x16",
+      "stage1_seed": 42,
+      "selected_epoch_one_based": 11,
+      "completed_epochs": 26,
+      "learned_codewords": 48,
+      "possible_combinations": 512,
+      "selected_epoch_training_assignments": {
+        "epoch": 10,
+        "used_codes": 512,
+        "empirical_perplexity": 448.77822156104486,
+        "coarse_used": 32,
+        "fine_used": 16,
+        "combined_vocab_size": 512
+      },
+      "checkpoint": "./artifacts/research/next_directions_20261027/stage1/csi800/rvq_32x16/checkpoints/seed42-epoch=10-val_loss=0.577903.ckpt",
+      "checkpoint_sha256": "b16211e4ee3a51d1dab48b24d196438b3955801ea2fd93ced9f040a26505a829"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq",
+      "stage1_seed": 42,
+      "selected_epoch_one_based": 32,
+      "completed_epochs": 47,
+      "learned_codewords": 0,
+      "possible_combinations": 512,
+      "selected_epoch_training_assignments": {
+        "epoch": 31,
+        "used_codes": 512,
+        "empirical_perplexity": 472.00260260668165
+      },
+      "checkpoint": "./artifacts/research/next_directions_20261027/stage1/csi800/fsq/checkpoints/seed42-epoch=31-val_loss=0.355565.ckpt",
+      "checkpoint_sha256": "013dd42fee540f183861ee4c81a5fc04b13092f3516a9b308aaa70a7db3e10a3"
+    }
+  ],
+  "assignment_scope": "Training assignments within the selected epoch while weights evolve; not held-out frozen-code utilization.",
+  "capacity_caveats": [
+    "RVQ 256x256 matches 512 physical codewords but allows 65,536 combinations.",
+    "RVQ 32x16 matches 512 combinations but uses 48 physical codewords.",
+    "FSQ uses a fixed 8x8x8 grid and learned 128-to-3-to-128 projections, without a VQ commitment term.",
+    "Raw Stage1 validation losses across different objectives are not a quality comparison."
+  ]
+}

@@ -1,0 +1,4 @@
+Protocol,IC mean±std,RankIC mean±std,ICIR mean±std,RankICIR mean±std,Ensemble AR,Ensemble Sharpe
+A: Fixed Stage-I + Stage-II multi-seed (paper 034),0.0399 ± 0.0026,0.0563 ± 0.0039,0.2388 ± 0.0203,0.3355 ± 0.0257,0.2102,1.2301
+B: Stage-I multi-seed + Stage-II seed42 (Reviewer 1),0.0389 ± 0.0012,0.0585 ± 0.0016,0.2110 ± 0.0067,0.3124 ± 0.0077,n/a (no ensemble),n/a (no ensemble)
+"C: Full pipeline multi-seed (Reviewer 2, this run)",0.0368 ± 0.0036,0.0545 ± 0.0042,0.2206 ± 0.0418,0.3273 ± 0.0209,0.1944,1.1032

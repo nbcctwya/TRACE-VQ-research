@@ -1,0 +1,140 @@
+{
+  "status": "complete",
+  "model": "TRACE-VQ full",
+  "universe": "SP500",
+  "stage1_runs": 1,
+  "stage1_seed": 42,
+  "stage2_runs": 5,
+  "stage2_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "metrics": {
+    "IC": {
+      "mean": 0.0028393810887029996,
+      "sample_std": 0.004809943172766884,
+      "n": 5
+    },
+    "ICIR": {
+      "mean": 0.024319092845747563,
+      "sample_std": 0.041937545811765266,
+      "n": 5
+    },
+    "RankIC": {
+      "mean": 0.00077286018318588,
+      "sample_std": 0.0038139727268583406,
+      "n": 5
+    },
+    "RankICIR": {
+      "mean": 0.00626878831134412,
+      "sample_std": 0.031505138821175664,
+      "n": 5
+    },
+    "AR": {
+      "mean": 0.07717621246820112,
+      "sample_std": 0.0295257406153981,
+      "n": 5
+    },
+    "STD": {
+      "mean": 0.17363282923198287,
+      "sample_std": 0.01942492284357653,
+      "n": 5
+    },
+    "Sharpe": {
+      "mean": 0.4363411471527009,
+      "sample_std": 0.18255577681765373,
+      "n": 5
+    },
+    "MDD": {
+      "mean": -0.2191534146687842,
+      "sample_std": 0.038061763855710744,
+      "n": 5
+    },
+    "Sortino": {
+      "mean": 0.6254738890643798,
+      "sample_std": 0.26400788291386607,
+      "n": 5
+    },
+    "Calmar": {
+      "mean": 0.3744848827729891,
+      "sample_std": 0.1794786776226894,
+      "n": 5
+    }
+  },
+  "observed": "当前固定配置在SP500的平均RankIC接近零，排序能力偏弱。净年化均值7.72%、Sharpe均值0.436，表现没有在此股票池形成较强的排序信号。",
+  "yearly_failure": "2025年五个seed的RankIC全部为负，平均约-0.01082；该年平均净年化约-1.70%，是需要保留的失效表现。",
+  "yearly_mean_metrics": {
+    "2023": {
+      "RankIC": 0.01023973417319706,
+      "AR": 0.13762360666139534,
+      "Sharpe": 0.7398821169576721,
+      "MDD": -0.15397248172147376
+    },
+    "2024": {
+      "RankIC": 0.0028869355548804803,
+      "AR": 0.12271080778546026,
+      "Sharpe": 0.8653026189942782,
+      "MDD": -0.09829713266026965
+    },
+    "2025": {
+      "RankIC": -0.01082500178149344,
+      "AR": -0.016956049743640823,
+      "Sharpe": -0.0567840085962407,
+      "MDD": -0.19254761605810858
+    }
+  },
+  "targeted_audit": "由于2025全部seed排序为负，额外核对了2025-01-02、04-30、10-01、12-31四个完整截面，10个标签均与原始行情计算完全一致；先验13列各年均有变化且无零值断层。该检查未修改数据或模型。",
+  "benchmark": {
+    "name": "S&P500 (^GSPC) price-index return from Qlib report",
+    "includes_dividends": false,
+    "days": 752,
+    "metrics": {
+      "AR": 0.21326446853461906,
+      "STD": 0.15008591271690996,
+      "MDD": -0.18902206919834763,
+      "Sharpe": 1.28802651206984,
+      "Sortino": 1.8880446682904526,
+      "Calmar": 1.1282516874303867,
+      "num_test_days": 752
+    }
+  },
+  "cost_note": "统一买入0.0005/卖出0.0015费率，Top30Drop5日均报告换手约33.1%；所有主要收益均为扣费后结果。价格指数是未计交易费、不含分红的参考序列，和95%风险资金股票组合的投资约束不同。",
+  "protocol": {
+    "train": "2009-2020",
+    "valid": "2021-2022",
+    "test": "2023-2025",
+    "test_days": 752,
+    "experts": 8,
+    "top_experts": 4,
+    "temporal_heads": 4,
+    "aux_weight": 0.001,
+    "stage1_encoder": "temporal-attention",
+    "shared_expert": true,
+    "quantization_confidence_adapter": true,
+    "codebook_size": 512,
+    "embedding_dimension": 128,
+    "epochs": 70,
+    "lr": 0.0001,
+    "patience": 15,
+    "topk": 30,
+    "drop": 5,
+    "risk_degree": 0.95,
+    "account": 100000000,
+    "open_cost": 0.0005,
+    "close_cost": 0.0015,
+    "quote_universe": "all",
+    "ensemble": false
+  },
+  "limits": [
+    "Stage1固定42，仅检验Stage2随机种子变化。",
+    "五个seed共享同一测试期，不是五份独立市场样本。",
+    "统计表为各seed独立回测的指标均值及样本标准差，不是集成组合。",
+    "与论文的2022-2024测试期和预测集成组合口径不同。"
+  ],
+  "all_results_and_weights_retained": true,
+  "original_project_unchanged": true,
+  "default_model_changed": false
+}

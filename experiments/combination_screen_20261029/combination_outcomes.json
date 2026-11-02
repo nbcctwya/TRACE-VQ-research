@@ -1,0 +1,544 @@
+{
+  "status": "complete",
+  "outcomes": [
+    {
+      "universe": "csi300",
+      "variant": "route_ranknet",
+      "components": [
+        "market_route",
+        "ranknet"
+      ],
+      "comparisons": [
+        "market_route",
+        "ranknet"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.0644943046669917,
+        "ICIR": 0.4482084537048887,
+        "RankIC": 0.05912220748996776,
+        "RankICIR": 0.4103352775147681
+      },
+      "test_metrics": {
+        "IC": 0.04027957012540561,
+        "ICIR": 0.23755426364100243,
+        "RankIC": 0.05672895514153352,
+        "RankICIR": 0.33873087202541224,
+        "AR": 0.194585142532751,
+        "STD": 0.15765227338260854,
+        "MDD": -0.17530417197302506,
+        "Sharpe": 1.1277919451066873,
+        "Sortino": 1.762567386683439,
+        "Calmar": 1.1099858054872351,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi300/route_ranknet/checkpoints/seed0-epoch=5-val_loss=1.010116.ckpt",
+      "checkpoint_sha256": "33bf4d6e46c00381845afbf81c0e51aad6e9560d1ec01a4fb5c38662c7257578",
+      "config": "./artifacts/research/combination_screen_20261029/csi300/route_ranknet/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi300/route_ranknet/completion.json"
+    },
+    {
+      "universe": "csi300",
+      "variant": "route_pairwise",
+      "components": [
+        "market_route",
+        "pairwise_loss"
+      ],
+      "comparisons": [
+        "market_route",
+        "pairwise_loss"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.056645409769120574,
+        "ICIR": 0.4742664915998526,
+        "RankIC": 0.053072107041132424,
+        "RankICIR": 0.43998169897952344
+      },
+      "test_metrics": {
+        "IC": 0.039234205629771195,
+        "ICIR": 0.23885265426145338,
+        "RankIC": 0.057687184184002,
+        "RankICIR": 0.3510227286355789,
+        "AR": 0.18605490214598244,
+        "STD": 0.15405793403116066,
+        "MDD": -0.1888489389566509,
+        "Sharpe": 1.1075871712624967,
+        "Sortino": 1.6840084919424982,
+        "Calmar": 0.9852049112581469,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi300/route_pairwise/checkpoints/seed0-epoch=15-val_loss=1.005175.ckpt",
+      "checkpoint_sha256": "fa8b52b6e0e10f3ea1259f67be6971250823ec4887cecf286d051e30ec479c47",
+      "config": "./artifacts/research/combination_screen_20261029/csi300/route_pairwise/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi300/route_pairwise/completion.json"
+    },
+    {
+      "universe": "csi300",
+      "variant": "fsq_route",
+      "components": [
+        "fsq",
+        "market_route"
+      ],
+      "comparisons": [
+        "fsq",
+        "market_route"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.061160169745942246,
+        "ICIR": 0.4670022165904161,
+        "RankIC": 0.05712177815966686,
+        "RankICIR": 0.43679175715833635
+      },
+      "test_metrics": {
+        "IC": 0.03839293168173833,
+        "ICIR": 0.20422483042781597,
+        "RankIC": 0.05705873103469165,
+        "RankICIR": 0.29928939334243065,
+        "AR": 0.16912674403918496,
+        "STD": 0.14812796357947525,
+        "MDD": -0.11429140566333762,
+        "Sharpe": 1.0548791311441588,
+        "Sortino": 1.6113525449286221,
+        "Calmar": 1.4797853176937295,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi300/fsq_route/checkpoints/seed0-epoch=6-val_loss=1.006304.ckpt",
+      "checkpoint_sha256": "8eca58da3c9a34042ca7a108a62806616cea2de859ce74377528dbb724d9a898",
+      "config": "./artifacts/research/combination_screen_20261029/csi300/fsq_route/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi300/fsq_route/completion.json"
+    },
+    {
+      "universe": "csi300",
+      "variant": "fsq_ranknet",
+      "components": [
+        "fsq",
+        "ranknet"
+      ],
+      "comparisons": [
+        "fsq",
+        "ranknet"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.05908549717549521,
+        "ICIR": 0.5126991982179883,
+        "RankIC": 0.05479414501610325,
+        "RankICIR": 0.476429351661693
+      },
+      "test_metrics": {
+        "IC": 0.04107115609484671,
+        "ICIR": 0.24133474594516122,
+        "RankIC": 0.05871280529362064,
+        "RankICIR": 0.351395482492972,
+        "AR": 0.23193822775722833,
+        "STD": 0.14862467653125236,
+        "MDD": -0.13753810385611076,
+        "Sharpe": 1.4034595661708973,
+        "Sortino": 2.1933916860687654,
+        "Calmar": 1.6863561533455256,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi300/fsq_ranknet/checkpoints/seed0-epoch=15-val_loss=1.006518.ckpt",
+      "checkpoint_sha256": "e2b6188a9c0af6009d7e3da390dcb20f79ad6df77bdc762c335e8eaf7662ee9e",
+      "config": "./artifacts/research/combination_screen_20261029/csi300/fsq_ranknet/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi300/fsq_ranknet/completion.json"
+    },
+    {
+      "universe": "csi300",
+      "variant": "fsq_pairwise",
+      "components": [
+        "fsq",
+        "pairwise_loss"
+      ],
+      "comparisons": [
+        "fsq",
+        "pairwise_loss"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.06355771198084471,
+        "ICIR": 0.4649486754482723,
+        "RankIC": 0.058936392633370804,
+        "RankICIR": 0.4364478221154168
+      },
+      "test_metrics": {
+        "IC": 0.03949562194388043,
+        "ICIR": 0.23444037122454062,
+        "RankIC": 0.05466334611726596,
+        "RankICIR": 0.33486520352644483,
+        "AR": 0.18135414316367038,
+        "STD": 0.1654009517642895,
+        "MDD": -0.18910720553478988,
+        "Sharpe": 1.0076203170943498,
+        "Sortino": 1.582678187380866,
+        "Calmar": 0.9590017612010391,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi300/fsq_pairwise/checkpoints/seed0-epoch=12-val_loss=1.003117.ckpt",
+      "checkpoint_sha256": "ea4456565159560e363af3a849dda066ab6ff42c120955c78c4217bce4e77c57",
+      "config": "./artifacts/research/combination_screen_20261029/csi300/fsq_pairwise/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi300/fsq_pairwise/completion.json"
+    },
+    {
+      "universe": "csi300",
+      "variant": "fsq_route_ranknet",
+      "components": [
+        "fsq",
+        "market_route",
+        "ranknet"
+      ],
+      "comparisons": [
+        "fsq_route",
+        "fsq_ranknet",
+        "route_ranknet",
+        "fsq",
+        "market_route",
+        "ranknet"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.06146995420551029,
+        "ICIR": 0.47036295531134437,
+        "RankIC": 0.05744435387820646,
+        "RankICIR": 0.4402369292036173
+      },
+      "test_metrics": {
+        "IC": 0.038488521700647184,
+        "ICIR": 0.20471559746249415,
+        "RankIC": 0.057141936287633525,
+        "RankICIR": 0.2993983755090386,
+        "AR": 0.17174529058823784,
+        "STD": 0.1489142046337868,
+        "MDD": -0.11427480264815315,
+        "Sharpe": 1.0643332452779153,
+        "Sortino": 1.6206374372091175,
+        "Calmar": 1.5029147861846122,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi300/fsq_route_ranknet/checkpoints/seed0-epoch=6-val_loss=1.006603.ckpt",
+      "checkpoint_sha256": "22e3b8320109e9c761c239a5039d7c6a99dd8ee71785af592c73a56defbe815d",
+      "config": "./artifacts/research/combination_screen_20261029/csi300/fsq_route_ranknet/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi300/fsq_route_ranknet/completion.json"
+    },
+    {
+      "universe": "csi300",
+      "variant": "fsq_route_pairwise",
+      "components": [
+        "fsq",
+        "market_route",
+        "pairwise_loss"
+      ],
+      "comparisons": [
+        "fsq_route",
+        "fsq_pairwise",
+        "route_pairwise",
+        "fsq",
+        "market_route",
+        "pairwise_loss"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.06122684128514701,
+        "ICIR": 0.46173784004898594,
+        "RankIC": 0.05705834170259477,
+        "RankICIR": 0.4305131444312095
+      },
+      "test_metrics": {
+        "IC": 0.0389623516643835,
+        "ICIR": 0.2083051376497949,
+        "RankIC": 0.05682893467343167,
+        "RankICIR": 0.301748622903019,
+        "AR": 0.16945027730838794,
+        "STD": 0.1552669711785875,
+        "MDD": -0.1145142153572688,
+        "Sharpe": 1.0081589713106431,
+        "Sortino": 1.5485986357396355,
+        "Calmar": 1.479731374657077,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi300/fsq_route_pairwise/checkpoints/seed0-epoch=6-val_loss=1.003111.ckpt",
+      "checkpoint_sha256": "d53081508725629396a3c8345cbc9af86655d241187a66226387dc0c9e7ff36f",
+      "config": "./artifacts/research/combination_screen_20261029/csi300/fsq_route_pairwise/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi300/fsq_route_pairwise/completion.json"
+    },
+    {
+      "universe": "csi800",
+      "variant": "route_ranknet",
+      "components": [
+        "market_route",
+        "ranknet"
+      ],
+      "comparisons": [
+        "market_route",
+        "ranknet"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": true,
+      "validation_metrics": {
+        "IC": 0.05840809121219175,
+        "ICIR": 0.5467797564908385,
+        "RankIC": 0.0533511104076994,
+        "RankICIR": 0.5065695894885356
+      },
+      "test_metrics": {
+        "IC": 0.031937490708656174,
+        "ICIR": 0.20352006115560003,
+        "RankIC": 0.05438875607394265,
+        "RankICIR": 0.34910705438513046,
+        "AR": 0.09914599567758546,
+        "STD": 0.16316024563964873,
+        "MDD": -0.26631127383708186,
+        "Sharpe": 0.5793905883048484,
+        "Sortino": 0.8987896291461973,
+        "Calmar": 0.37229364813987875,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi800/route_ranknet/checkpoints/seed0-epoch=15-val_loss=1.002839.ckpt",
+      "checkpoint_sha256": "9a392e30f24091be875ad8d95733d6d3787477a8e6ee299204517c8132a45c97",
+      "config": "./artifacts/research/combination_screen_20261029/csi800/route_ranknet/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi800/route_ranknet/completion.json"
+    },
+    {
+      "universe": "csi800",
+      "variant": "route_pairwise",
+      "components": [
+        "market_route",
+        "pairwise_loss"
+      ],
+      "comparisons": [
+        "market_route",
+        "pairwise_loss"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.05896106173506285,
+        "ICIR": 0.5600335088478995,
+        "RankIC": 0.05364944559662407,
+        "RankICIR": 0.5130200245011575
+      },
+      "test_metrics": {
+        "IC": 0.0333026748752074,
+        "ICIR": 0.21269315386927232,
+        "RankIC": 0.05523282321116905,
+        "RankICIR": 0.35446589176067844,
+        "AR": 0.10587919262650743,
+        "STD": 0.16452044106892633,
+        "MDD": -0.25731525011477197,
+        "Sharpe": 0.6117213605213395,
+        "Sortino": 0.9433351630916301,
+        "Calmar": 0.4114765548457833,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi800/route_pairwise/checkpoints/seed0-epoch=15-val_loss=1.001457.ckpt",
+      "checkpoint_sha256": "83545f7ff1fc674c78a743c1c30979a2b7067b457dff328592a31f0879df9914",
+      "config": "./artifacts/research/combination_screen_20261029/csi800/route_pairwise/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi800/route_pairwise/completion.json"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_route",
+      "components": [
+        "fsq",
+        "market_route"
+      ],
+      "comparisons": [
+        "fsq",
+        "market_route"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.05924200849090215,
+        "ICIR": 0.48202322364678407,
+        "RankIC": 0.05228055198970728,
+        "RankICIR": 0.434955468861332
+      },
+      "test_metrics": {
+        "IC": 0.03314069904819259,
+        "ICIR": 0.21774738198467466,
+        "RankIC": 0.05445846798580997,
+        "RankICIR": 0.38627728940235956,
+        "AR": 0.12803458110378935,
+        "STD": 0.19554631492966235,
+        "MDD": -0.24186650269307797,
+        "Sharpe": 0.6161037074832705,
+        "Sortino": 0.9368312674774544,
+        "Calmar": 0.5293605343368352,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi800/fsq_route/checkpoints/seed0-epoch=7-val_loss=1.004773.ckpt",
+      "checkpoint_sha256": "aa26d7a26892a0fba095f15ce6b46ea5d137b8e20afe1eeabf6ffc8d4b3f5a7b",
+      "config": "./artifacts/research/combination_screen_20261029/csi800/fsq_route/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi800/fsq_route/completion.json"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_ranknet",
+      "components": [
+        "fsq",
+        "ranknet"
+      ],
+      "comparisons": [
+        "fsq",
+        "ranknet"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.06038336404373559,
+        "ICIR": 0.5450970188172952,
+        "RankIC": 0.055606211810902674,
+        "RankICIR": 0.507129747405754
+      },
+      "test_metrics": {
+        "IC": 0.03431938224613718,
+        "ICIR": 0.2185091223540733,
+        "RankIC": 0.05582025631076725,
+        "RankICIR": 0.3595997776381374,
+        "AR": 0.13749562874038557,
+        "STD": 0.15683742581756738,
+        "MDD": -0.18722105734182348,
+        "Sharpe": 0.8214176450450218,
+        "Sortino": 1.271333628699196,
+        "Calmar": 0.7344025864000411,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi800/fsq_ranknet/checkpoints/seed0-epoch=15-val_loss=1.003188.ckpt",
+      "checkpoint_sha256": "45510c79419c51be39373b91d38e209712d436db6a1ef52ff1d99b7116cca6a0",
+      "config": "./artifacts/research/combination_screen_20261029/csi800/fsq_ranknet/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi800/fsq_ranknet/completion.json"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_pairwise",
+      "components": [
+        "fsq",
+        "pairwise_loss"
+      ],
+      "comparisons": [
+        "fsq",
+        "pairwise_loss"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.06326709401476703,
+        "ICIR": 0.5366439441780327,
+        "RankIC": 0.057492151475204305,
+        "RankICIR": 0.4929364999780197
+      },
+      "test_metrics": {
+        "IC": 0.03649598402922747,
+        "ICIR": 0.2283943513773373,
+        "RankIC": 0.056644305582470814,
+        "RankICIR": 0.36110371339090513,
+        "AR": 0.17056026420485587,
+        "STD": 0.1732662503628095,
+        "MDD": -0.26839819413162824,
+        "Sharpe": 0.9089046029368638,
+        "Sortino": 1.4422094942323278,
+        "Calmar": 0.6354747086010923,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi800/fsq_pairwise/checkpoints/seed0-epoch=13-val_loss=1.001423.ckpt",
+      "checkpoint_sha256": "f7b44883352eeec4c8a2b92ccc1d24b8611c8a8c1d4a43c4f64639c9751ae703",
+      "config": "./artifacts/research/combination_screen_20261029/csi800/fsq_pairwise/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi800/fsq_pairwise/completion.json"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_route_ranknet",
+      "components": [
+        "fsq",
+        "market_route",
+        "ranknet"
+      ],
+      "comparisons": [
+        "fsq_route",
+        "fsq_ranknet",
+        "route_ranknet",
+        "fsq",
+        "market_route",
+        "ranknet"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": false,
+      "validation_metrics": {
+        "IC": 0.05911786440055654,
+        "ICIR": 0.48096515648867033,
+        "RankIC": 0.05212432383625606,
+        "RankICIR": 0.4334665568561818
+      },
+      "test_metrics": {
+        "IC": 0.033232358434445185,
+        "ICIR": 0.2191430170567547,
+        "RankIC": 0.05442378816432151,
+        "RankICIR": 0.3875849666815648,
+        "AR": 0.13685985537722323,
+        "STD": 0.19569380786439527,
+        "MDD": -0.2497357851565376,
+        "Sharpe": 0.6554624815565651,
+        "Sortino": 0.9945761654745887,
+        "Calmar": 0.5480186001034562,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi800/fsq_route_ranknet/checkpoints/seed0-epoch=7-val_loss=1.004969.ckpt",
+      "checkpoint_sha256": "9bc0f767e589a0880a88fe429fe1c585d59c2b8a634ea4693100bacadc19117b",
+      "config": "./artifacts/research/combination_screen_20261029/csi800/fsq_route_ranknet/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi800/fsq_route_ranknet/completion.json"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_route_pairwise",
+      "components": [
+        "fsq",
+        "market_route",
+        "pairwise_loss"
+      ],
+      "comparisons": [
+        "fsq_route",
+        "fsq_pairwise",
+        "route_pairwise",
+        "fsq",
+        "market_route",
+        "pairwise_loss"
+      ],
+      "all_parents_five_metrics": false,
+      "all_parents_financial_metrics": true,
+      "validation_metrics": {
+        "IC": 0.06210385576988217,
+        "ICIR": 0.566104424182228,
+        "RankIC": 0.056266080952752436,
+        "RankICIR": 0.5160707408866329
+      },
+      "test_metrics": {
+        "IC": 0.03583412341362287,
+        "ICIR": 0.22837461208853066,
+        "RankIC": 0.056156617043092306,
+        "RankICIR": 0.3655394221892313,
+        "AR": 0.18484171310210368,
+        "STD": 0.16211097173430442,
+        "MDD": -0.1925551231016962,
+        "Sharpe": 1.0462536150965958,
+        "Sortino": 1.657924698825017,
+        "Calmar": 0.959941808478818,
+        "num_test_days": 727
+      },
+      "checkpoint": "./artifacts/research/combination_screen_20261029/csi800/fsq_route_pairwise/checkpoints/seed0-epoch=15-val_loss=1.002139.ckpt",
+      "checkpoint_sha256": "2dc4d32b98d1916d5788019e71e54fc03897d93b20c9b6cc98ebaa36973204cd",
+      "config": "./artifacts/research/combination_screen_20261029/csi800/fsq_route_pairwise/effective.config.yaml",
+      "completion": "./artifacts/research/combination_screen_20261029/csi800/fsq_route_pairwise/completion.json"
+    }
+  ],
+  "note": "All-parent point comparisons, not robustness or statistical significance claims."
+}

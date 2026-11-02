@@ -1,0 +1,6 @@
+{
+  "status": "passed",
+  "vectorized_daily_spearman_checked_against_pandas": true,
+  "same_market_series_for_all_20_portfolios": true,
+  "new_training_runs": 0
+}

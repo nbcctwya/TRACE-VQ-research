@@ -1,0 +1,8 @@
+variant,components,research_priority,reason,both_market_test_four_metrics,both_market_baseline_five_metrics,all_parents_financial_both
+route_ranknet,market_route + ranknet,secondary_portfolio_candidate,双数据集收益、Sharpe、回撤优于基线，RankIC均略降；CSI300收益和Sharpe低于单独路由，额外收益证据较弱。,False,False,False
+route_pairwise,market_route + pairwise_loss,record_tradeoff_without_priority,双数据集RankIC、收益和Sharpe略有改善，但CSI300回撤变差；CSI800收益与Sharpe仍低于单独成对排序。,False,False,False
+fsq_route,fsq + market_route,do_not_prioritize,双数据集收益与Sharpe均低于单独FSQ，回撤改善；CSI800的RankIC低于基线。,False,False,False
+fsq_ranknet,fsq + ranknet,primary_dual_dataset_candidate,唯一在双数据集同时改善基线测试RankIC、净年化收益、Sharpe和回撤的组合；CSI300验证RankIC下降，且相对FSQ仍有回撤或收益/排序取舍。,True,False,False
+fsq_pairwise,fsq + pairwise_loss,csi800_only_tradeoff_reserve,CSI300四项测试指标均差于基线；CSI800回测较好，但最大回撤明显高于最后的三组件组合，排序稍好。,False,False,False
+fsq_route_ranknet,fsq + market_route + ranknet,do_not_prioritize,加入路由后双数据集收益、Sharpe和RankIC均低于两组件FSQ+RankNet；CSI300回撤较小。,False,False,False
+fsq_route_pairwise,fsq + market_route + pairwise_loss,csi800_specific_financial_candidate,CSI800净收益、Sharpe和回撤均好于全部6个直接组件/删减组合，但RankIC低于单独FSQ及FSQ+成对排序；CSI300收益与Sharpe差于基线。,False,False,False

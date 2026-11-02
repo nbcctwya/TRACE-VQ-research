@@ -1,0 +1,29 @@
+{
+  "completed_models": 20,
+  "technical_failures": 0,
+  "unresolved_technical_failures": 0,
+  "recovered_resource_interruptions": 0,
+  "promising": [
+    {
+      "universe": "csi800",
+      "variant": "history_continuous"
+    },
+    {
+      "universe": "csi800",
+      "variant": "history_gru"
+    },
+    {
+      "universe": "csi800",
+      "variant": "history_mismatched"
+    },
+    {
+      "universe": "csi800",
+      "variant": "peer_market"
+    },
+    {
+      "universe": "csi800",
+      "variant": "peer_self"
+    }
+  ],
+  "note": "Single seed. Candidate labels combine validation/test ranking and net portfolio metrics; not a statistical significance claim."
+}

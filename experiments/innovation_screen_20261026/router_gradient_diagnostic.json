@@ -1,0 +1,54 @@
+{
+  "source": "trace_vq/models/experts/shared_routed.py:293-299",
+  "used_k": 1,
+  "experts": 2,
+  "epsilon": 1e-06,
+  "diagnostic": [
+    {
+      "dtype": "torch.float32",
+      "k": 1,
+      "selected_weight": 0.9999984502792358,
+      "gradient_to_logits": [
+        [
+          5.454641041069408e-07,
+          -5.454641041069408e-07
+        ]
+      ]
+    },
+    {
+      "dtype": "torch.float32",
+      "k": 2,
+      "selected_weight": 0.6456556916236877,
+      "gradient_to_logits": [
+        [
+          0.2287840098142624,
+          -0.2287840098142624
+        ]
+      ]
+    },
+    {
+      "dtype": "torch.float64",
+      "k": 1,
+      "selected_weight": 0.9999984511907627,
+      "gradient_to_logits": [
+        [
+          5.488099360859708e-07,
+          -5.488099360859706e-07
+        ]
+      ]
+    },
+    {
+      "dtype": "torch.float64",
+      "k": 2,
+      "selected_weight": 0.6456556605701349,
+      "gradient_to_logits": [
+        [
+          0.22878401167264564,
+          -0.2287840116726456
+        ]
+      ]
+    }
+  ],
+  "interpretation": "For top-1 routing, normalizing the selected probability by itself plus epsilon makes its within-selection prediction gradient very small. Hard expert choice has no local derivative; balancing losses still supply router gradients. This is a local normalization diagnostic, not a full-model gradient measurement.",
+  "scope": "Both the baseline and state-conditioned route inherit this behavior. The screen keeps it unchanged. Weak results do not resolve whether market conditioning would help under a different routing design."
+}

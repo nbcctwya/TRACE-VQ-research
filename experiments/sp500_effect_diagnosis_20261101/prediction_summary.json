@@ -1,0 +1,48 @@
+{
+  "status": "complete",
+  "matched": {
+    "fsq": {
+      "daily_score_pearson": 0.5369278672074713,
+      "daily_score_spearman": 0.525698577200021,
+      "daily_top30_overlap": 0.29717198581560283,
+      "actual_holdings_overlap": 0.3217138044095945,
+      "daily_return_pearson": 0.9004937461607947,
+      "exact_score_fraction": 0.0,
+      "best_epoch": 3.6,
+      "baseline_best_epoch": 3.4,
+      "training_mse": 0.9962423205375671,
+      "training_ranknet": null
+    },
+    "fsq_ranknet": {
+      "daily_score_pearson": 0.49327921845522693,
+      "daily_score_spearman": 0.48186514643563993,
+      "daily_top30_overlap": 0.2700088652482269,
+      "actual_holdings_overlap": 0.29151681579424193,
+      "daily_return_pearson": 0.8919791222730739,
+      "exact_score_fraction": 0.0,
+      "best_epoch": 4.2,
+      "baseline_best_epoch": 3.4,
+      "training_mse": 0.9953015208244324,
+      "training_ranknet": 0.6920381903648376
+    },
+    "ranknet": {
+      "daily_score_pearson": 0.9027809719683197,
+      "daily_score_spearman": 0.8972395763253231,
+      "daily_top30_overlap": 0.7882446808510639,
+      "actual_holdings_overlap": 0.7470957670084679,
+      "daily_return_pearson": 0.9701701166934559,
+      "exact_score_fraction": 1.0819173739701498e-06,
+      "best_epoch": 3.6,
+      "baseline_best_epoch": 3.4,
+      "training_mse": 0.9967390060424804,
+      "training_ranknet": 0.6924041032791137
+    }
+  },
+  "between_seed_rank_correlations": {
+    "baseline": 0.3769642330130315,
+    "fsq": 0.4466931674707624,
+    "fsq_ranknet": 0.47357394286648163,
+    "ranknet": 0.3555519926140545
+  },
+  "holdings_overlap_definition": "intersection divided by larger stock count, excluding days both portfolios are empty"
+}

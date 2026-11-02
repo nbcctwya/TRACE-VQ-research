@@ -1,0 +1,208 @@
+{
+  "protocol": {
+    "stage1_seed": 42,
+    "stage2_seed": 0,
+    "train_period": [
+      "2009-01-01",
+      "2020-12-31"
+    ],
+    "valid_period": [
+      "2021-01-01",
+      "2022-12-31"
+    ],
+    "test_period": [
+      "2023-01-01",
+      "2025-12-31"
+    ],
+    "target_day": 5,
+    "target_formula": "Ref($close,-5)/Ref($close,-1)-1",
+    "max_epochs": 70,
+    "early_stopping_patience": 15,
+    "early_stopping_min_delta": 1e-05,
+    "checkpoint_selection": "minimum original target-day validation MSE + original auxiliary loss",
+    "additional_losses": "training only; original validation selection objective retained",
+    "quote_universe": "all",
+    "topk": 30,
+    "drop": 5,
+    "risk_degree": 0.95,
+    "account": 100000000.0,
+    "deal_price": "close",
+    "open_cost": 0.0005,
+    "close_cost": 0.0015,
+    "min_cost": 0.0,
+    "metrics": "Baseline Results Protocol v1.0; net simple returns -> log returns; ddof=1; 252 days",
+    "matmul_precision": "high",
+    "training_precision": 32,
+    "historical_behavior": "Default historical path unchanged. Soft routing and research quantizers are explicit variants.",
+    "combination_selection": "No adaptive combinations or test-dependent hyperparameter changes in this screen",
+    "interpretation": "Single-seed exploratory comparisons; shared test period has been inspected before"
+  },
+  "universes": [
+    "csi300",
+    "csi800"
+  ],
+  "variants": {
+    "baseline": {},
+    "pairwise_reference": {
+      "pairwise_weight": 0.1
+    },
+    "ranknet": {
+      "ranknet_weight": 0.1
+    },
+    "top_ranknet": {
+      "ranknet_weight": 0.1,
+      "top_pair_boost": 2.0,
+      "topk": 30
+    },
+    "turnover_control": {
+      "pairwise_weight": 0.1,
+      "paired_days": true,
+      "turnover_weight": 0.0
+    },
+    "turnover": {
+      "pairwise_weight": 0.1,
+      "paired_days": true,
+      "turnover_weight": 0.05
+    },
+    "soft_route": {
+      "soft_route": true
+    },
+    "soft_market": {
+      "soft_route": true,
+      "market_conditioning": "route"
+    },
+    "history_mean": {
+      "history": "mean",
+      "history_days": 20
+    },
+    "history_gru": {
+      "history": "gru",
+      "history_days": 20,
+      "history_hidden": 32
+    },
+    "rvq_256x256": {
+      "quantizer_kind": "rvq",
+      "sizes": [
+        256,
+        256
+      ]
+    },
+    "rvq_32x16": {
+      "quantizer_kind": "rvq",
+      "sizes": [
+        32,
+        16
+      ]
+    },
+    "fsq": {
+      "quantizer_kind": "fsq",
+      "levels": [
+        8,
+        8,
+        8
+      ]
+    }
+  },
+  "source_sha256": {
+    "AGENTS.md": "e7786cf710e04b57977c6373476fc4948bffd547808777579a8fc121fa9ed7ec",
+    "configs/config.yaml": "331c9fd2b2c12f369489028879070cc543f97f965172099f4a44383b8dad0742",
+    "configs/data/csi300.yaml": "095addb8c5943b473ef9e8bc49ea8fead6aaa4a0e301c0c064dc146b330fb77b",
+    "configs/data/csi800.yaml": "63aac0bb6eb6052b6f37467aae749dc739d373dbf4b6ccba8a6738a6c314487a",
+    "configs/data/sp500.yaml": "53aa0af678088908cf7b87070de2be9fdfbef3586986dc4c8bfdcdd8a540d897",
+    "configs/experiment/csi800.yaml": "7394b6546f66bd3d0beb92a29f2dd974460a4b8e91e43733384f883911e50db0",
+    "configs/experiment/full.yaml": "c2ce7d27362e4ddb63c0252e56b36bcfc2de1a474453ddf68748c29a0c5e46b0",
+    "configs/experiment/wo_ca.yaml": "5959b106330982ca78f5f3d06f959250ad79c00042eb50958bcb11dc2b939b55",
+    "configs/experiment/wo_sr.yaml": "38f8299de4aa0fbf2ef3a7da849f781dacafd4094c50d9d8f36ba469d045b5b1",
+    "configs/experiment/wo_ta.yaml": "2d5ffc264e74b1b906ec218354c1128c80a319a09167935d0c216b2412da03ca",
+    "configs/hvq/025.yaml": "46e009002b6b270169262cd283260d3ec3ef727e91731f8f8a35f940d007a8df",
+    "configs/hvq/034.yaml": "f0f5cb4218cc07efff168c650cac070f3115eedb14200edc3364921b3a49b030",
+    "configs/hvq/037.yaml": "ba5aaf882a8b5d72665aef5b63c8cc6bceedd32d9ad661715e003a8ce176c68d",
+    "configs/hvq/038.yaml": "b85f5cf26d422ded7fb7de1a7b30b52b637ddd7f23cbb38e0393cb931b22f02c",
+    "research/run.sh": "8b143189c45daf9336e2089939cee161784b3c11b061356a15e39860aad402d5",
+    "research/run_innovation_screen.py": "106a24c0532c50818d30b11716abaea22a31b3ddcdcacd1a9fb671423bb70f55",
+    "research/run_next_screen.py": "2b788e351329b6147b25f1282822619ef6b9d7a4d6d2cf72d22a0b0ad2198deb",
+    "tests/test_next_screen.py": "e14ab5568e256e39d797688ab72420666ba34196a66fbe0e3754ccb440ad472c",
+    "trace_vq/__init__.py": "3a0f73bb16cd6ae5c8b91351444788a8935cf480d0f3cb71a0b16bb78ab2ccd0",
+    "trace_vq/cli/__init__.py": "239faa0ca7fd64082b8a2a323df91b99aa7be728c2c5d8c3cf92c7d47bfd0fb1",
+    "trace_vq/cli/evaluate.py": "f74bfb10ffb67259aa11d68706926fd4a645fadddb43199bc91670d9764cc656",
+    "trace_vq/cli/next_screen.py": "317b02adc036df701ed34f05c029b739240e015d3876ddc2807228d04063c474",
+    "trace_vq/cli/screening.py": "7ad29e42dfb5f7cba36735652fb90d8f898331a2707d8759fc21d1e06c8bf297",
+    "trace_vq/cli/stage1.py": "2af3678680dc170576e5402918992dc3887273539b9e17380f82246ac6ee328c",
+    "trace_vq/cli/stage2.py": "d8c1c9a70f0811445576e6f64e090a6ffc9bc625784bf675e7b3d9d81d096318",
+    "trace_vq/data/__init__.py": "8825acacfc072027a238ebe5e8abfbdf3d52016a23b6c58c61067cf95ef7bd0d",
+    "trace_vq/data/frozen.py": "b69d13f528d4a77d9effdb16b69d3d694fe857bbd97439f3bb94ca4a2846006e",
+    "trace_vq/data/loaders.py": "b3bcec316f68f7e58beb2a4f1ff405633163d4104b95251ec45225031af19b6b",
+    "trace_vq/data/market.py": "c1f72bf70e89f54922b2397aee5966a0b0d52b3044e13d9bb7ebd4129de6c8ad",
+    "trace_vq/data/prepare.py": "1dcd73bf96509fee54e8fdd2a88c22b8cba5017ddb5aaab51403de66a8757ee9",
+    "trace_vq/data/prepare_union.py": "c4e9a58046527447b789027f70c91f0cdb6d2ce85a8e1b32ea5f8bd3b65e3948",
+    "trace_vq/data/research_context.py": "c0a40abb9668eaa80086641c7b367d1edb2b5c1c86f63f391d02534969ad5059",
+    "trace_vq/data/schema.py": "74bce0eae2b55c1600d5a88dadc8c190128b32b60bcaf722b68f707620e06eb8",
+    "trace_vq/data/universe.py": "9c013343b107840ea6dfb8eb44ebe35ba34b74f69a64006eb35fd05a920d760f",
+    "trace_vq/evaluation/__init__.py": "911de0615a88530fc42a3b0411dbd98f446967c02b5c354d7daf320b54af266c",
+    "trace_vq/evaluation/backtest.py": "6abf475a464e1217130a8f3a104048dc2ad7470af831984c8d2518c8e7904078",
+    "trace_vq/evaluation/correlation.py": "ded3d5e2d3a59651bffb90b535e9910b227b643cbdecd4f1ebe1aad6090012ff",
+    "trace_vq/evaluation/ensemble.py": "7638d39290e3f8503c5fac24bb25a696b2905e9a532b2076d115666aca5377bf",
+    "trace_vq/evaluation/inference.py": "5c3ff74b7eb45d729a4525d618b703de5784d8f71d4cb0a3054468a0ee9c4bac",
+    "trace_vq/evaluation/protocol_metrics.py": "59058e19b2180dabaabe1bbd763a41d2dfcfe78e3af670acc1074f073dc07726",
+    "trace_vq/evaluation/reporting.py": "6f89141fc8c09080bb54c4fb38f44765bb021196d918b0da53c47e4ff7828e76",
+    "trace_vq/experiments.py": "69c840e5e0eef36a98a0729149a7e1aaaaae5f6b3530f325927e5dd4d6762da1",
+    "trace_vq/losses/__init__.py": "fb28a15e77d0f8b4d8a01157e2f3e54ac6ca45e2bba92c9a0f2e00a0d05fe353",
+    "trace_vq/losses/listnet.py": "40c7917d7bb94e2136ae4f3e8361ce1edcd73191c28d1ac725c4e7cdd7845e35",
+    "trace_vq/losses/ranking.py": "545a2ad0da23f251e9a8a55ac137128f0aef896f406068011606dc4f459bcf92",
+    "trace_vq/models/__init__.py": "173f867a5ce70e54a36f24119c9b43cfdd76ab3f73041f8900a11c778fc46d54",
+    "trace_vq/models/components/__init__.py": "b94526aed5e6bf45d51744c0ab755041da62746b2cf8424e5872f465226edb20",
+    "trace_vq/models/components/decomposition.py": "1cf797850fdf1c6c2961696c6118274e86ea7f0e2440913150269cc3f56862d1",
+    "trace_vq/models/components/legacy/__init__.py": "fedc53246f01f5eaf85b8031b9837f6dc0c4055a5c9265b7ec50d3617af8f8c9",
+    "trace_vq/models/components/legacy/attention.py": "b484ee8cf8d9fa05f0e488346f66f9b2146431198fbb7e9fecfadc746996ea63",
+    "trace_vq/models/components/legacy/router.py": "c62f75b1d6c599f022157ca1e234730b7845daf5c3459bab9dadedab61e6c596",
+    "trace_vq/models/components/legacy/rwkv.py": "4500abfb43838a1dc743ad02ecc839995aa83b5238b3fff67a76b6eedf575f83",
+    "trace_vq/models/components/legacy_exports.py": "93c69738131012bce4c998f72196ad5396e5ae273db4e42dabab547ba7957525",
+    "trace_vq/models/components/masking.py": "b1cd54c8b85920abaaa133767397090aa89159567aba3fb5523cc4646ffcd285",
+    "trace_vq/models/components/normalization.py": "37d2399ce2b977d42240a0be0c23ef2f8157b47b4df21f07c8df82ea15066353",
+    "trace_vq/models/components/position.py": "c38803d9a4a057610c27562e7d5e678c88b0f26d6a54966c1ceb45a63916d57d",
+    "trace_vq/models/confidence/__init__.py": "2611868fb79d8633f41a9ebc035c522dd64c2539734644107ae6db002f199ab3",
+    "trace_vq/models/confidence/adapter.py": "828f2d06d70d97c9da3e966744e99796a9b55bb8ea2bb6135c996afbd63f7b92",
+    "trace_vq/models/experts/__init__.py": "996b6fb9ae0bdebe6517a7f3e96d54aaf27fd524f12d207545698b1dda985c4d",
+    "trace_vq/models/experts/fusion.py": "5d1420be30efa1ba40703a5c00da92636bd34f8f955de1871d0333a2cc21e8dc",
+    "trace_vq/models/experts/shared_routed.py": "19288e73cea58ec543e687a988c21c887a7191d95c02d22338988820bb3641c9",
+    "trace_vq/models/legacy_exports.py": "d021333864cdc884c757e4a7f66bc6a0ed1c5713d0e24bd55c380596fe03c297",
+    "trace_vq/models/next_screen.py": "8f35b1a7fa7df6b6c3449d7660df17004e6599ac459f0a1d3c63d8cf62c5587f",
+    "trace_vq/models/prediction/__init__.py": "a7d8300bfa5726e67921d7e0e9c768b20fa36590a151f825d00a8e0fdae6cab1",
+    "trace_vq/models/prediction/heads.py": "0062d82a330f5d12e290c5e5f3a61290bd6cddefad41d92f21ff2a17fb1c044a",
+    "trace_vq/models/prediction/loadings.py": "2070056f2b6c1e9001e16a108da0f0eed5ffa239bcfea88f5fc753014540aa96",
+    "trace_vq/models/prediction/temporal_transformer.py": "da37c7201fb26a64a6f2921eba0f11b171b1542c826115bac6b3ef300b0aa5d6",
+    "trace_vq/models/quantization/__init__.py": "e49c2cd051ba99a25ee3938be48c66c0134e083dec992fe653db7046f7d9cf9d",
+    "trace_vq/models/quantization/codebook.py": "45ed9685e175f0bd716f9f3745b1a9af5d2a1a0063518969a8a75f26c371c366",
+    "trace_vq/models/quantization/research.py": "8e7a084f6f1bcc44769d3be4290827f2acc6b4c9d80132d29c47bc48deb85f08",
+    "trace_vq/models/representation.py": "dd50f8f89781eb1692d117402d6e3a7cf68dcb625b44bf4f882d99804930b1ef",
+    "trace_vq/models/screening.py": "95a65df57a82d0d26f04205fb5809f4536fd3cf179c3ac4da4382a09cff042f5",
+    "trace_vq/models/temporal/__init__.py": "9c42bb57ae24df1fe483f0ec761c6724f45c34adceca0508ad74e2268b4a9004",
+    "trace_vq/models/temporal/decoders.py": "40d2cb3631f06d6ba42d132cad3a1f842eb28a74b801abc9992c4f8019a54641",
+    "trace_vq/models/temporal/encoder.py": "a90e85c4a4544b835f394e2c2cb7e9f1bff8f850bfe3e15c58ba0038eacc00e8",
+    "trace_vq/models/temporal/gru.py": "2dfe4139cad54a1845e57bb52da1df1d0e108fbaacf7d1ea2c19022a7bdc76a3",
+    "trace_vq/runtime.py": "a95b074cab1b87628b6a82456ef6540fe29416fede682d013ef73f5c819e7aa9",
+    "trace_vq/training/__init__.py": "aa93d40a41c019472b9ba867ede803360aa36bdf25529a5ea14aa562d8d2e640",
+    "trace_vq/training/callbacks.py": "2cc85c99ff11cd6c2d3d126be094739a1ac4bde839f715a39d79092c1be7473f",
+    "trace_vq/training/prediction.py": "456e694245609f43273fc946a1291f516c0cc915197dad80059fbab9cb5e3c1c",
+    "trace_vq/training/representation.py": "304eb52e1d7a42229f3f7b2b16e6ff68ec102644abf116bba2266570e0895b77",
+    "trace_vq/training/schedulers.py": "1a9cdac8c7b375d84dc0ab84261deb8ec709a043490f8148b8d0e2023d95975b",
+    "trace_vq/utils/__init__.py": "e455b87f8b7b24182e75062182e4e5a6798d1675594e97b4f1d1d6141138a573",
+    "trace_vq/utils/config.py": "188831179a3c470aec22663379502378213614b8d8ac6e92751a3246c2943b28",
+    "trace_vq/utils/logging.py": "a7ed049e35cde0354df2045e3f501aefe368b1b6149b1417cf20b31128e80699",
+    "trace_vq/utils/wandb.py": "faff8a6b58deaafb4d93e184f6717e8687e8c0fa3fa0c01e8e569f7327c84841"
+  },
+  "primary_comparisons": {
+    "ranknet": "pairwise_reference",
+    "top_ranknet": "ranknet",
+    "turnover_control": "pairwise_reference",
+    "turnover": "turnover_control",
+    "soft_route": "baseline",
+    "soft_market": "soft_route",
+    "history_mean": "baseline",
+    "history_gru": "history_mean"
+  },
+  "new_stage2_runs": 22,
+  "new_stage1_runs": 6,
+  "selection_rule": "Promising: validation/test RankIC and net Sharpe improve, absolute MDD loss <=.02",
+  "interpretation": "Exploratory shared-test, single-trained-seed comparisons; no novelty or stability guarantee"
+}

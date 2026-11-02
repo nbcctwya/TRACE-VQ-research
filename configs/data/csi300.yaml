@@ -1,0 +1,54 @@
+qlib_init:
+  provider_uri: "~/.qlib/qlib_data/cn_data"
+  region: cn
+market: &market csi300
+benchmark: &benchmark SH000300
+
+# Independent market group; AlphaMaster formulas and preprocessing.
+market_data_handler_config:
+  market_indices: ["sh000300", "sh000852", "sh000905"]
+  infer_processors:
+    - class: RobustZScoreNorm
+      kwargs:
+        fields_group: market
+        clip_outlier: true
+    - class: Fillna
+      kwargs:
+        fields_group: market
+
+data_handler_config:
+  start_time: 2008-01-01
+  end_time: 2025-12-31
+  fit_start_time: 2009-01-01
+  fit_end_time: 2020-12-31 # should be equal to train_period[1]
+  instruments: *market
+  infer_processors: # infer + learn
+    - class: RobustZScoreNorm
+      kwargs:
+        fields_group: feature
+        clip_outlier: true
+    - class: Fillna
+      kwargs:
+        fields_group: feature
+    - class: RobustZScoreNorm
+      kwargs:
+        fields_group: prior
+        clip_outlier: true 
+    - class: Fillna
+      kwargs:
+        fields_group: prior
+
+  learn_processors: # only learn
+    - class: DropnaLabel
+    - class: CSRankNorm # CSRankNorm
+      kwargs:
+        fields_group: label
+
+
+# Canonical generator uses the inherited Qlib Alpha158 definitions above.
+dataset:
+  segments:
+    train: [2009-01-01, 2020-12-31]
+    valid: [2021-01-01, 2022-12-31]
+    test: [2023-01-01, 2025-12-31]
+  step_len: 20

@@ -1,0 +1,15 @@
+{
+  "completed_models": 14,
+  "technical_failures": 0,
+  "promising": [
+    {
+      "universe": "csi800",
+      "variant": "ic_loss"
+    },
+    {
+      "universe": "csi800",
+      "variant": "pairwise_loss"
+    }
+  ],
+  "note": "Single seed. Candidate labels combine validation/test ranking and net portfolio metrics; not a statistical significance claim."
+}

@@ -1,0 +1,47 @@
+{
+  "status": "complete",
+  "probes": 30,
+  "summary": {
+    "fsq_ranknet": {
+      "mse_mean": 0.9923459887504578,
+      "mse_min": 0.9734755754470825,
+      "mse_max": 1.0085219144821167,
+      "ranknet_mean": 0.6910824179649353,
+      "ranknet_min": 0.6860195398330688,
+      "ranknet_max": 0.6962482929229736,
+      "weighted_ranknet_mean": 0.06910824328660965,
+      "weighted_ranknet_min": 0.06860195845365524,
+      "weighted_ranknet_max": 0.06962483376264572,
+      "score_gradient_norm_ratio_mean": 0.02896341122686863,
+      "score_gradient_norm_ratio_min": 0.028802543878555298,
+      "score_gradient_norm_ratio_max": 0.029019491747021675,
+      "parameter_gradient_norm_ratio_mean": 0.024213437115152676,
+      "parameter_gradient_norm_ratio_min": 0.010258068330585957,
+      "parameter_gradient_norm_ratio_max": 0.029157141223549843,
+      "parameter_gradient_cosine_mean": 0.8280335962772369,
+      "parameter_gradient_cosine_min": 0.22892293334007263,
+      "parameter_gradient_cosine_max": 0.9992479681968689
+    },
+    "ranknet": {
+      "mse_mean": 0.9964107433954875,
+      "mse_min": 0.967372477054596,
+      "mse_max": 1.0409845113754272,
+      "ranknet_mean": 0.6923815925916036,
+      "ranknet_min": 0.6841229200363159,
+      "ranknet_max": 0.7055160999298096,
+      "weighted_ranknet_mean": 0.06923816055059433,
+      "weighted_ranknet_min": 0.06841229647397995,
+      "weighted_ranknet_max": 0.07055161148309708,
+      "score_gradient_norm_ratio_mean": 0.028960943718751273,
+      "score_gradient_norm_ratio_min": 0.028873657807707787,
+      "score_gradient_norm_ratio_max": 0.029026450589299202,
+      "parameter_gradient_norm_ratio_mean": 0.024535010941326617,
+      "parameter_gradient_norm_ratio_min": 0.012585857883095741,
+      "parameter_gradient_norm_ratio_max": 0.029186392202973366,
+      "parameter_gradient_cosine_mean": 0.8598008374373118,
+      "parameter_gradient_cosine_min": 0.45768746733665466,
+      "parameter_gradient_cosine_max": 0.9992233514785767
+    }
+  },
+  "method": "Read-only CPU train-mode gradient probes at validation-selected checkpoints, three training dates per model; no optimizer steps or retraining"
+}

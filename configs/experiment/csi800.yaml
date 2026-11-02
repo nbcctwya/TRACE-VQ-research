@@ -1,0 +1,13 @@
+# @package _global_
+# Same full-model settings as CSI300; new representation must be trained.
+artifact_root: artifacts/csi800/s1seed42_s2seed0
+data:
+  universe: csi800
+  data_path: dataset/processed
+vqvae:
+  encoder:
+    type: temporal-attention
+predictor:
+  saved_model: "???"
+  shared_expert: true
+  quantization_confidence_adapter: true

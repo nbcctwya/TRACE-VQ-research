@@ -1,0 +1,30 @@
+{
+  "completed_new_stage2_runs": 24,
+  "reused_reference_results": 16,
+  "new_baseline_training_runs": 0,
+  "new_stage1_training_runs": 0,
+  "stage1_seed": 42,
+  "stage2_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "adopted_as_default": false,
+  "overall": "未发现本轮三个候选中，在双数据集的平均RankIC、净年化收益、Sharpe与最大回撤均优于TRACE-VQ的方案。",
+  "csi300": "组合平均净年化16.97%、Sharpe0.975高于基线15.54%、0.913，但平均RankIC较低、最大回撤更大；FSQ收益和Sharpe接近基线，RankNet整体偏弱。组合收益/Sharpe仅3/5个同seed对比胜出。",
+  "csi800": "FSQ和组合均值得保留研究：收益和Sharpe各4/5个同seed对比优于基线；组合回撤5/5改善。FSQ平均净年化15.44%、组合15.18%，Sharpe分别0.815和0.819。",
+  "combination_vs_fsq": "CSI800组合较FSQ平均收益低0.26个百分点、Sharpe高0.0044、最大回撤减少1.97个百分点；没有看到明显额外收益，回撤改善4/5个seed。CSI300组合较FSQ平均收益高1.13个百分点、Sharpe高0.0577，回撤更大。",
+  "yearly": "CSI800的FSQ和组合在2023、2024、2025逐年平均收益均优于基线；CSI300组合的收益增益更多出现在2025，2024平均收益低于基线。",
+  "costs": "统一扣费后比较。各方案报告日均换手接近，CSI800主要收益增益并非来自显著减少换手或费用。",
+  "limitations": [
+    "固定Stage1 seed42，仅检验Stage2的种子变化。",
+    "五个seed共享同一测试期，前期已依据测试表现筛选候选，未进行多重试验校正。",
+    "均值和样本标准差来自各seed独立回测，不是预测集成组合。",
+    "CSI300与CSI800为同一市场中有重叠的股票池，并非独立跨市场验证。",
+    "交互项为描述性差分，不能作为因果或统计显著的协同证据。",
+    "基线seed1–4未保留可用验证集指标，不报告虚构的五seed基线验证均值。"
+  ],
+  "retention": "所有新增权重、配置、预测、回测与负结果均保留；没有修改默认模型。"
+}

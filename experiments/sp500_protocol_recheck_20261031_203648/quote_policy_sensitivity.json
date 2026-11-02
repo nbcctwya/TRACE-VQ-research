@@ -1,0 +1,23 @@
+{
+  "TRACE_VQ": "all",
+  "MASTER_exporter": "sp500",
+  "checked_with_same_TRACE_VQ_ensemble": true,
+  "engine_version": "0.9.7",
+  "current_all_quotes_metrics": {
+    "AR": 0.05855599232847493,
+    "STD": 0.17878689214517582,
+    "MDD": -0.2278250880694762,
+    "Sharpe": 0.31828791986782706,
+    "Sortino": 0.44918341644222554,
+    "Calmar": 0.2570217039074206
+  },
+  "historical_quotes_metrics": {
+    "AR": 0.052477378787455425,
+    "STD": 0.16854150388886988,
+    "MDD": -0.238910686837711,
+    "Sharpe": 0.3034670530685857,
+    "Sortino": 0.43979989250617213,
+    "Calmar": 0.219652705712167
+  },
+  "note": "Sensitivity check only. Published metrics remain on the all-quotes protocol used by the majority of SP500 adapters."
+}

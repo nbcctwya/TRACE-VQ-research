@@ -1,0 +1,155 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "baseline": "MASTER",
+      "test": "first_day_loss_in_drawdown",
+      "passed": true
+    },
+    {
+      "baseline": "MASTER",
+      "test": "Sortino_RMS_over_all_days",
+      "passed": true
+    },
+    {
+      "baseline": "MASTER",
+      "test": "sample_standard_deviation",
+      "passed": true
+    },
+    {
+      "baseline": "MASTER",
+      "test": "undefined_ratios_stay_NaN",
+      "passed": true
+    },
+    {
+      "baseline": "MASTER",
+      "test": "return_minus_100_percent_rejected",
+      "passed": true
+    },
+    {
+      "baseline": "MATCC",
+      "test": "first_day_loss_in_drawdown",
+      "passed": true
+    },
+    {
+      "baseline": "MATCC",
+      "test": "Sortino_RMS_over_all_days",
+      "passed": true
+    },
+    {
+      "baseline": "MATCC",
+      "test": "sample_standard_deviation",
+      "passed": true
+    },
+    {
+      "baseline": "MATCC",
+      "test": "undefined_ratios_stay_NaN",
+      "passed": true
+    },
+    {
+      "baseline": "MATCC",
+      "test": "return_minus_100_percent_rejected",
+      "passed": true
+    },
+    {
+      "baseline": "FactorVAE",
+      "test": "first_day_loss_in_drawdown",
+      "passed": true
+    },
+    {
+      "baseline": "FactorVAE",
+      "test": "Sortino_RMS_over_all_days",
+      "passed": true
+    },
+    {
+      "baseline": "FactorVAE",
+      "test": "sample_standard_deviation",
+      "passed": true
+    },
+    {
+      "baseline": "FactorVAE",
+      "test": "undefined_ratios_stay_NaN",
+      "passed": true
+    },
+    {
+      "baseline": "FactorVAE",
+      "test": "return_minus_100_percent_rejected",
+      "passed": true
+    },
+    {
+      "baseline": "FactorVQVAE",
+      "test": "first_day_loss_in_drawdown",
+      "passed": true
+    },
+    {
+      "baseline": "FactorVQVAE",
+      "test": "Sortino_RMS_over_all_days",
+      "passed": true
+    },
+    {
+      "baseline": "FactorVQVAE",
+      "test": "sample_standard_deviation",
+      "passed": true
+    },
+    {
+      "baseline": "FactorVQVAE",
+      "test": "undefined_ratios_stay_NaN",
+      "passed": true
+    },
+    {
+      "baseline": "FactorVQVAE",
+      "test": "return_minus_100_percent_rejected",
+      "passed": true
+    },
+    {
+      "baseline": "PRISM-VQ",
+      "test": "first_day_loss_in_drawdown",
+      "passed": true
+    },
+    {
+      "baseline": "PRISM-VQ",
+      "test": "Sortino_RMS_over_all_days",
+      "passed": true
+    },
+    {
+      "baseline": "PRISM-VQ",
+      "test": "sample_standard_deviation",
+      "passed": true
+    },
+    {
+      "baseline": "PRISM-VQ",
+      "test": "undefined_ratios_stay_NaN",
+      "passed": true
+    },
+    {
+      "baseline": "PRISM-VQ",
+      "test": "return_minus_100_percent_rejected",
+      "passed": true
+    },
+    {
+      "baseline": "qlib-baselines",
+      "test": "first_day_loss_in_drawdown",
+      "passed": true
+    },
+    {
+      "baseline": "qlib-baselines",
+      "test": "Sortino_RMS_over_all_days",
+      "passed": true
+    },
+    {
+      "baseline": "qlib-baselines",
+      "test": "sample_standard_deviation",
+      "passed": true
+    },
+    {
+      "baseline": "qlib-baselines",
+      "test": "undefined_ratios_stay_NaN",
+      "passed": true
+    },
+    {
+      "baseline": "qlib-baselines",
+      "test": "return_minus_100_percent_rejected",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "S&P500 (^GSPC) price-index return from Qlib report",
+  "includes_dividends": false,
+  "days": 752,
+  "metrics": {
+    "AR": 0.21326446853461906,
+    "STD": 0.15008591271690996,
+    "MDD": -0.18902206919834763,
+    "Sharpe": 1.28802651206984,
+    "Sortino": 1.8880446682904526,
+    "Calmar": 1.1282516874303867,
+    "num_test_days": 752
+  }
+}

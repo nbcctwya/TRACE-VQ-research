@@ -1,0 +1,49 @@
+[
+  {
+    "direction": "排序目标",
+    "variants": [
+      "ranknet",
+      "top_ranknet"
+    ],
+    "judgment": "未超过已有候选。Top 加权 RankNet 在两个股票池均劣于原始基线的五项指标；普通 RankNet 的改善存在取舍。"
+  },
+  {
+    "direction": "预测平滑/换手代理约束",
+    "variants": [
+      "turnover_control",
+      "turnover"
+    ],
+    "judgment": "保留 CSI800 收益优先和 CSI300 排序优先的取舍方案，保留零惩罚直接对照，费用变化不足以解释 CSI800 收益差。"
+  },
+  {
+    "direction": "软路由及市场状态",
+    "variants": [
+      "soft_route",
+      "soft_market"
+    ],
+    "judgment": "本轮未脱颖而出。市场状态软路由的验证改善未在测试延续，两个股票池均差于匹配的软路由对照。"
+  },
+  {
+    "direction": "历史码信息",
+    "variants": [
+      "history_mean",
+      "history_gru"
+    ],
+    "judgment": "CSI800 最值得优先研究，保留均值对照及 GRU；CSI300 同方向失效，不能宣称跨股票池稳健。"
+  },
+  {
+    "direction": "残差 VQ",
+    "variants": [
+      "rvq_256x256",
+      "rvq_32x16"
+    ],
+    "judgment": "完成两个预算的 Stage1 重训及 Stage2。CSI800 大码本被 history_mean 五项指标支配，小码本回撤较大，暂不重点投入。"
+  },
+  {
+    "direction": "FSQ 式量化",
+    "variants": [
+      "fsq"
+    ],
+    "judgment": "CSI300 留作低回撤取舍方案，CSI800 留作量化消融。两个股票池都不能据此主张全面改善；FSQ 的三维投影和不同目标已披露。"
+  }
+]
