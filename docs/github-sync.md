@@ -53,9 +53,16 @@ git check-ignore -v .env
 
 `.gitignore` 只约束后续文件跟踪，不会删除旧提交或 tag 中已经出现的内容。
 已按用户请求单独清除本仓库的旧历史：当前仓库从 `main` 的一个初始提交开始，
-不包含旧分支、旧 tag、远程跟踪 refs 或旧 reflog。旧 Git 元数据仅保留在
+不包含旧仓库的分支、tag、远程跟踪 refs 或 reflog。旧 Git 元数据仅保留在
 `artifacts/research/history_reset_*/git-before/`，供本机恢复与基线核查，整个
 `artifacts/` 继续被忽略。原始 `../TRACE-VQ` 的 Git 元数据和数据不变。
 
-`origin` 的拉取地址仍是原 `TRACE-VQ` 远程，推送地址仍禁用；本次未修改远程地址
-或执行推送。为研究仓库配置新的 GitHub 目标属于后续单独操作。
+用户已创建独立科研仓库，`origin` 的拉取和推送地址均指向：
+
+```text
+git@github.com:nbcctwya/TRACE-VQ-research.git
+```
+
+默认分支为 `main`。首次同步的范围为源码、配置和 `experiments/` 中的汇总，
+不推送旧历史备份或本机产物。后续同步继续遵循相同忽略规则，并按用户请求推送。
+原始 `TRACE-VQ` 仓库不作为本研究目录的推送目标。

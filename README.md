@@ -3,6 +3,8 @@
 这个仓库同步当前研究目录的源码、配置、实验说明和汇总指标，便于阅读模型实现、
 检查实验设置，以及用 ChatGPT/Claude 分析结果。
 
+专用科研仓库：[nbcctwya/TRACE-VQ-research](https://github.com/nbcctwya/TRACE-VQ-research)。
+
 从 [实验索引](experiments/README.md)、[指标口径](experiments/protocol.md) 和
 [分析指南](docs/analysis-guide.md) 开始。主要结果在：
 

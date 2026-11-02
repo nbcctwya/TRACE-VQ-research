@@ -22,8 +22,11 @@ checkpoints, results, logs and caches.
   change.
 - Verify the original's state with `research/run.sh research/verify_baseline.py`.
   Add `--full` to hash all original data, model and cache files as well.
-- Git history and branches are local to this copy. Its remote push URL is
-  disabled. Do not publish research changes without a user request.
+- The dedicated research remote is
+  `git@github.com:nbcctwya/TRACE-VQ-research.git`. The user authorized the initial
+  synchronization of source, configs and curated summaries. Keep future pushes
+  within the user's requested scope; never push this copy to the original
+  `TRACE-VQ` repository.
 
 ## Git synchronization scope
 
