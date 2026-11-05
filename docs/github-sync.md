@@ -10,9 +10,11 @@
 - `experiments/`：实验描述、计划、变体定义、聚合结果和实际配置快照。
 - 项目 README、架构与分析说明、`AGENTS.md` 和 `CLAUDE.md`。
 
-实验索引见 [experiments/README.md](../experiments/README.md)。主要表为
-64 条去重后的单 seed 股票池/配置结果、12 组五 seed 均值/标准差和 60 行每 seed
-指标，另保留历史消融、训练随机性与诊断汇总。原始表中的数值保留，汇总中的
+实验索引见 [experiments/README.md](../experiments/README.md)，完整目录见
+[overview.md](../experiments/overview.md)。统一研究表有148条去重逐seed结果、84个设置
+（16组五seed）、7份预测集成及198份YAML配置。前两批新增Stage2训练共32次；
+结果行包含复用，不能作为新增训练次数。此前64条单seed/60行多seed表保留为快照，
+历史消融、训练随机性及其他报价/指标口径独立归档。原始表中的数值保留，汇总中的
 本机绝对路径已改为相对引用。每 seed 一行属于稳定性分析所需的汇总，
 没有逐日收益、逐股票预测或持仓记录。
 
@@ -41,6 +43,19 @@
 每配置/seed 指标和说明整理进 `experiments/`，保留较差结果、负结果和复用基线标记。
 实际配置只移植路径，不修改数值参数。新增批次时更新 `experiments/index.csv`
 与实验 README，区分独立 seed 的均值和预测集成后的回测。
+
+整理并检查代码、超参数和聚合结果文档：
+
+```bash
+research/run.sh research/organize_experiment_results.py
+research/run.sh research/audit_git_scope.py
+# git add 已审核的源文件、配置和 experiments/ 文档后，检查实际索引内容：
+research/run.sh research/audit_git_scope.py --index
+```
+
+范围检查会拒绝二进制、原始产物目录、逐股票/逐日数据、运行状态文件、
+本机home绝对路径和可识别凭据。CSV/JSON聚合结果属于结构化实验文档。
+`.gitignore` 额外阻止监控、训练记录、预测明细和组合明细进入Git，即使它们被复制到其他目录。
 
 用以下只读命令检查当前同步范围：
 

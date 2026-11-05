@@ -1,0 +1,18 @@
+{
+  "status": "complete",
+  "training_runs": 0,
+  "alignment": "exact sorted date/stock index and labels",
+  "group_weights": "equal; VQ/FSQ each 0.5 in mixed ensemble",
+  "input_sha256": {
+    "./artifacts/research/multiseed_validation_20261030/csi300/baseline/seed0/evaluation/test_predictions.pkl": "aa12b0214bcbe703de682d57926651b6d30dde0f38c3f6f7022e5cc4e043505a",
+    "./artifacts/research/multiseed_validation_20261030/csi300/baseline/seed1/evaluation/test_predictions.pkl": "9c8576193e45e3b89ddfb2054c8727c9f97e8751372a8976144654f95822037e",
+    "./artifacts/research/multiseed_validation_20261030/csi300/baseline/seed2/evaluation/test_predictions.pkl": "e1f46664cd40161ddb1d04553377b553ad165fcf401b352806719f5542d33d9c",
+    "./artifacts/research/multiseed_validation_20261030/csi300/baseline/seed3/evaluation/test_predictions.pkl": "369fa40adca9ce08e6b3195aa361cafd83f00508890403b3a93da0bfc5e39178",
+    "./artifacts/research/multiseed_validation_20261030/csi300/baseline/seed4/evaluation/test_predictions.pkl": "e02e13477d4fd1451a435bfc6f1d9530329960db223250752064e3a42e0dc4a1",
+    "./artifacts/research/multiseed_validation_20261030/csi300/fsq/seed0/evaluation/test_predictions.pkl": "98348d86f8f1859aa0eeb2cdec69f19972e816e03f7a333ca93e1c8806ce3b31",
+    "./artifacts/research/multiseed_validation_20261030/csi300/fsq/seed1/evaluation/test_predictions.pkl": "cdfd522ed320679abc5bc9a82d2fe0751c5e75e10e0fce34afb97da4a6aefda3",
+    "./artifacts/research/multiseed_validation_20261030/csi300/fsq/seed2/evaluation/test_predictions.pkl": "5fda175f4c180f0ad695cb2aa4c11c06311f5ac46b31b2092479cffa5bc973c4",
+    "./artifacts/research/multiseed_validation_20261030/csi300/fsq/seed3/evaluation/test_predictions.pkl": "a2f08d652ce79fa777338aeb2dafbd10dab2c0ff3c9a09e24076109418e2c9a2",
+    "./artifacts/research/multiseed_validation_20261030/csi300/fsq/seed4/evaluation/test_predictions.pkl": "aa8acf427d4b4ae46b3713440c9b06963b1de98e7f94999a88d364417c3c185f"
+  }
+}

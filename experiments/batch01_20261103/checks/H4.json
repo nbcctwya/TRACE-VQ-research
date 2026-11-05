@@ -1,0 +1,23 @@
+{
+  "status": "audited",
+  "training_skipped": true,
+  "seconds": 0.8718600799911655,
+  "explicit_st_prefilter_found": false,
+  "st_note": "No dedicated ST exclusion found in current data-generation YAML/code. Historical membership is reused unchanged.",
+  "label_processing": "DropnaLabel/CSRankNorm on learning view; test uses inference view. No test filtering by future holding-period events added.",
+  "suspension": "Qlib Exchange treats absent/all-NaN close quotes as suspended and rejects non-tradable orders.",
+  "strategy_only_tradable": false,
+  "forbid_all_trade_at_limit": true,
+  "configured_limit_threshold": null,
+  "effective_qlib_cn_limit_threshold": 0.095,
+  "price_limit_note": "None in backtest kwargs falls back to Qlib regional configuration. No new ST/board-specific rules are introduced.",
+  "deal_price": "close",
+  "topk": 30,
+  "drop": 5,
+  "risk_degree": 0.95,
+  "open_cost": 0.0005,
+  "close_cost": 0.0015,
+  "quote_universe": "all",
+  "rules_changed": false,
+  "exchange_source_sha256": "4affc13ab45af464cfb5b55663b80b2fc3dadb4769045d34d0fd218f760d7e08"
+}

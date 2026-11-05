@@ -1,0 +1,19 @@
+{
+  "gpu_preflight_status": "passed",
+  "gpu_preflight_checks": 12,
+  "gpu_preflight_failures": 0,
+  "config_invariance_status": "passed",
+  "config_invariance_checks": 12,
+  "unit_tests": 106,
+  "unit_tests_passed": true,
+  "standalone_prediction_exact_runs": 12,
+  "original_source_unchanged": true,
+  "original_verification_full_hash_check": false,
+  "original_regular_files_hashed": 1972,
+  "source_sha256": {
+    "trace_vq/models/batch01.py": "a4082189ca6526b3ebc85973f692e66b99868904637a9e198b52ba52c7363fad",
+    "trace_vq/cli/batch01.py": "be4abf73600d04f91eba1ba27478521a7b4a1c5919b85c79d5bf0efab01bf037",
+    "trace_vq/models/prediction/temporal_transformer.py": "fee51eb1244cacdb7095934a16ef7984f84c61ddb8d66685d6d5af4a67eacc94",
+    "research/run_batch01.py": "fcce84e574786f3fd8cbc03d90ef1e816b4863078b2d107052c4357b491c433a"
+  }
+}

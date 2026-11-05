@@ -31,3 +31,16 @@ state_balanced,用训练期确定的市场状态分组进行均衡。,"{""state_
 top_ranknet,提高涉及 top-30 股票的 RankNet 成对权重。,"{""ranknet_weight"": 0.1, ""top_pair_boost"": 2.0, ""topk"": 30}",trace_vq/models/next_screen.py
 turnover,配对相邻日训练并加入换手惩罚。,"{""paired_days"": true, ""pairwise_weight"": 0.1, ""turnover_weight"": 0.05}",trace_vq/models/next_screen.py
 turnover_control,配对相邻日的训练方式，换手惩罚为零的空对照。,"{""paired_days"": true, ""pairwise_weight"": 0.1, ""turnover_weight"": 0.0}",trace_vq/models/mechanism_screen.py
+fsq_ca_dim,FSQ用整数网格单位的三维abs(u-q)作为适配器输入。,"{""confidence_input"": ""abs_u_minus_q"", ""family"": ""fsq"", ""item"": ""B2""}",trace_vq/models/batch01.py
+fsq_grid,FSQ下游直接使用归一化三维网格，同时将潜在因子数改为3。,"{""family"": ""fsq"", ""grid_confidence_error"": ""normalized_coordinate_mse"", ""item"": ""B1"", ""stage2_latent_dim"": 3}",trace_vq/models/batch01.py
+fsq_wo_ca,FSQ关闭量化置信度适配器。,"{""confidence_adapter"": false, ""family"": ""fsq"", ""item"": ""B3""}",trace_vq/models/batch01.py
+gated_attn,Stage2注意力输出与投影之间的逐头sigmoid门。,"{""attention_gate"": ""per_head"", ""family"": ""vq"", ""item"": ""K1/J2""}",trace_vq/models/batch01.py
+tune800_aux001,CSI800单独将辅助损失权重改为0.001。,"{""aux_weight"": 0.001, ""family"": ""vq"", ""item"": ""G1""}",trace_vq/models/batch01.py
+tune800_experts4,CSI800单独将路由专家数改为4。,"{""family"": ""vq"", ""item"": ""G1"", ""n_expert"": 4}",trace_vq/models/batch01.py
+tune800_experts8,CSI800单独将路由专家数改为8。,"{""family"": ""vq"", ""item"": ""G1"", ""n_expert"": 8}",trace_vq/models/batch01.py
+tune800_heads4,CSI800单独将Stage2注意力头数改为4。,"{""family"": ""vq"", ""item"": ""G1"", ""num_heads"": 4}",trace_vq/models/batch01.py
+fsq_turnover,原FSQ底座加相邻交易日标准化分数平滑，pairwise=0.1、平滑=0.05。,"{""levels"": [8, 8, 8], ""paired_days"": true, ""pairwise_weight"": 0.1, ""quantizer_kind"": ""fsq"", ""turnover_weight"": 0.05}",trace_vq/models/next_screen.py
+fsq_turnover_control,FSQ相同配对流程的零平滑惩罚控制组，保留pairwise=0.1。,"{""levels"": [8, 8, 8], ""paired_days"": true, ""pairwise_weight"": 0.1, ""quantizer_kind"": ""fsq"", ""turnover_weight"": 0.0}",trace_vq/models/next_screen.py
+ens_vq5,已有预测的算术平均集成；无新增训练。,"{""seeds"": [0, 1, 2, 3, 4], ""vq_group_weight"": 1, ""fsq_group_weight"": 0}",trace_vq/evaluation/ensemble.py
+ens_fsq5,已有预测的算术平均集成；无新增训练。,"{""seeds"": [0, 1, 2, 3, 4], ""vq_group_weight"": 0, ""fsq_group_weight"": 1}",trace_vq/evaluation/ensemble.py
+ens_vq_fsq,已有预测的算术平均集成；无新增训练。,"{""seeds"": [0, 1, 2, 3, 4], ""vq_group_weight"": 0.5, ""fsq_group_weight"": 0.5}",trace_vq/evaluation/ensemble.py

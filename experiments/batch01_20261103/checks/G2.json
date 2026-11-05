@@ -1,0 +1,12 @@
+{
+  "status": "already_implemented",
+  "training_skipped": true,
+  "layers": [
+    "Linear",
+    "LayerNorm",
+    "GELU",
+    "Linear"
+  ],
+  "seconds": 0.0006683490064460784,
+  "source": "trace_vq/models/prediction/heads.py"
+}

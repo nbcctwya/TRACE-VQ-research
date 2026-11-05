@@ -1,0 +1,136 @@
+{
+  "batch": 1,
+  "items": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "new_stage1_runs": 0,
+  "new_stage2_runs": 12,
+  "ensemble_outputs": 6,
+  "tasks": [
+    {
+      "universe": "csi800",
+      "variant": "tune800_experts4",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "vq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi800/tune800_experts4.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi800/tune800_experts4/seed0"
+    },
+    {
+      "universe": "csi800",
+      "variant": "tune800_experts8",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "vq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi800/tune800_experts8.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi800/tune800_experts8/seed0"
+    },
+    {
+      "universe": "csi800",
+      "variant": "tune800_aux001",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "vq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi800/tune800_aux001.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi800/tune800_aux001/seed0"
+    },
+    {
+      "universe": "csi800",
+      "variant": "tune800_heads4",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "vq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi800/tune800_heads4.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi800/tune800_heads4/seed0"
+    },
+    {
+      "universe": "csi300",
+      "variant": "gated_attn",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "vq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi300/gated_attn.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi300/gated_attn/seed0"
+    },
+    {
+      "universe": "csi800",
+      "variant": "gated_attn",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "vq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi800/gated_attn.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi800/gated_attn/seed0"
+    },
+    {
+      "universe": "csi300",
+      "variant": "fsq_wo_ca",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "fsq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi300/fsq_wo_ca.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi300/fsq_wo_ca/seed0"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_wo_ca",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "fsq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi800/fsq_wo_ca.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi800/fsq_wo_ca/seed0"
+    },
+    {
+      "universe": "csi300",
+      "variant": "fsq_ca_dim",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "fsq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi300/fsq_ca_dim.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi300/fsq_ca_dim/seed0"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_ca_dim",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "fsq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi800/fsq_ca_dim.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi800/fsq_ca_dim/seed0"
+    },
+    {
+      "universe": "csi300",
+      "variant": "fsq_grid",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "fsq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi300/fsq_grid.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi300/fsq_grid/seed0"
+    },
+    {
+      "universe": "csi800",
+      "variant": "fsq_grid",
+      "stage1_seed": 42,
+      "stage2_seed": 0,
+      "family": "fsq",
+      "config": "./artifacts/research/batch01_20261103/configs/csi800/fsq_grid.yaml",
+      "output": "./artifacts/research/batch01_20261103/csi800/fsq_grid/seed0"
+    }
+  ],
+  "no_later_batches": true,
+  "protocol": "Baseline Results Protocol v1.0; existing all-quotes TopkDropout",
+  "validation_selection": "original validation MSE plus auxiliary",
+  "source_sha256": {
+    "trace_vq/models/batch01.py": "a4082189ca6526b3ebc85973f692e66b99868904637a9e198b52ba52c7363fad",
+    "trace_vq/cli/batch01.py": "be4abf73600d04f91eba1ba27478521a7b4a1c5919b85c79d5bf0efab01bf037",
+    "trace_vq/models/prediction/temporal_transformer.py": "fee51eb1244cacdb7095934a16ef7984f84c61ddb8d66685d6d5af4a67eacc94",
+    "research/run_batch01.py": "fcce84e574786f3fd8cbc03d90ef1e816b4863078b2d107052c4357b491c433a"
+  },
+  "grid_note": "3 latent factors; CA uses normalized-grid MSE; unchanged Stage 1 and matching downstream tensors retained"
+}

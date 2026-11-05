@@ -1,10 +1,32 @@
 # 实验结果索引
 
-本目录仅提供实验设置与聚合结果，供分析代码、对照实验和研究结论。
+本目录提供实验设置、实际超参数与聚合结果文档，包含此前所有已收录实验及清单第01、02批。
 
-优先阅读 [统一口径](protocol.md)、[五 seed 汇总](multiseed_mean_std.csv)、[每 seed 结果](multiseed_per_seed.csv)，再看 [64 条去重单 seed 结果](single_seed_all.csv)。变体代码映射见 [variants.csv](variants.csv)，实际保存配置见 [config_index.csv](config_index.csv)。
+优先阅读[完整研究总览](overview.md)与[统一口径](protocol.md)：
 
-## 当前结果
+- [research_runs.csv](research_runs.csv)：148条去重后的股票池×变体×Stage2 seed结果，保留全部来源视图。
+- [research_mean_std.csv](research_mean_std.csv)：84个设置；16组完成五seed，68组为单seed探索。单seed标准差留空。
+- [research_ensembles.csv](research_ensembles.csv)：7份平均预测后单独回测的集成结果。
+- [hyperparameters.csv](hyperparameters.csv)、[config_index.csv](config_index.csv)：198份实际YAML配置及主要超参数。
+- [variants.csv](variants.csv)：模型变体/预测集成与实现代码的对应关系。
+
+148条结果包括复用模型，不能当作148次新增训练。历史报价、Stage1多seed、两阶段多seed及诊断回放保留在下方各自目录。
+
+## 前两批已完成结果
+
+[第01批](batch01_20261103/README.md)新增12次Stage2训练、6份预测集成，G2/H4按要求检查完成。
+CSI800的逐维FSQ残差与混合集成改善部分组合指标；CSI300新增单模型无收益/Sharpe优势。新增模型均仅seed0。
+
+[第02批](batch02_20261103/README.md)新增20次Stage2训练、复用4份seed0，共24份结果。
+CSI300的VQ平滑降低换手，但平均回撤加深；CSI800原seed0强信号未稳定复现。
+FSQ平滑的单seed结果相对配对控制组较好，IC未改善，不能据此判定稳定性。
+
+前两批均零失败，Stage1复用seed42，实际配置、全部指标差值、训练/回测耗时和显存记录均在各批目录。
+
+## 前期候选五seed快照
+
+以下表格对应此前的[五seed汇总](multiseed_mean_std.csv)和[60行逐seed快照](multiseed_per_seed.csv)。
+前四轮的[64条单seed快照](single_seed_all.csv)也保留原值；最新覆盖范围请使用上方统一表。
 
 以下均为五个独立 Stage 2 seed 的指标均值和样本标准差（ddof=1），不是预测集成。AR 与 MDD 在 CSV 中为比例，下表换成百分数。
 
@@ -43,7 +65,12 @@ CSI800 的 FSQ 和 FSQ+RankNet 相对基线更有希望；CSI300 的组合提高
 | [sp500_baseline_protocol_20261031](sp500_baseline_protocol_20261031/README.md) | SP500 基线口径与集成复核 | SP500 | 6 次回测；无新训练 |
 | [sp500_protocol_recheck_20261031_203648](sp500_protocol_recheck_20261031_203648/README.md) | SP500 回测指标复核 | SP500 | 6 个回放案例；无新训练 |
 | [sp500_effect_diagnosis_20261101](sp500_effect_diagnosis_20261101/README.md) | SP500 预测、梯度与市场暴露诊断 | SP500 | 无新训练 |
+| [batch01_20261103](batch01_20261103/README.md) | 清单01–08：检查、集成和结构筛选 | CSI300 / CSI800 | 12次新训练、6份集成、2项检查 |
+| [batch02_20261103](batch02_20261103/README.md) | 清单09–10：平滑五seed复验与FSQ组合 | CSI300 / CSI800 | 20次新训练、4份复用，共24条结果 |
 
 前四轮的 14/26/20/24 行含复用对照，去重后为 64 条股票池 × 配置结果（32 个配置，每个用于两个股票池）。多 seed 表也含已跑的 seed 0 与历史基线；不能把各表行数相加当作新增训练次数。失败和较差的科学结果保留，技术 smoke 和资源中断重试不算新增方法。
 
 代码中声明但没有结果行的可选变体不视为已完成实验。自动 promising 标签只是早期筛选标记，最终结论应结合多 seed 结果、验证集表现和每批 README。
+
+更新统一表可运行 `research/run.sh research/organize_experiment_results.py`。
+该命令只读取已整理的聚合结果与配置，不读取原始数据或预测明细。

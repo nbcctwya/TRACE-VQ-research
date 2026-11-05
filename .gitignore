@@ -106,7 +106,35 @@ mlruns/
 /experiments/**/epoch_metrics.csv
 /experiments/**/training_progress.json
 
+# Generated predictions, portfolios and runtime monitoring remain local even
+# when copied outside artifacts/. Per-seed aggregate CSVs stay publishable.
+*_predictions.pkl
+*_predictions.csv
+*_predictions.parquet
+portfolio_return.csv
+qlib_report.csv
+orders.csv
+trades.csv
+holdings.csv
+positions.csv
+epoch_metrics.csv
+training_progress.json
+training_fit.json
+training_result.json
+progress.json
+monitoring.json
+watchdog.json
+resource_samples.csv
+resource_peaks.json
+events.out.tfevents.*
+alerts.jsonl
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
 # Private settings and credentials; these take precedence over summary exceptions.
+/TRACE_VQ分批实验清单.txt
+/TRACE_VQ*分批实验清单*.txt
 .env
 .env.*
 !.env.example
@@ -140,6 +168,7 @@ service_account*.json
 .vscode/
 .DS_Store
 Thumbs.db
+*:Zone.Identifier
 *.swp
 *.swo
 *~

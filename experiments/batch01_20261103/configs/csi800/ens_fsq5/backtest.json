@@ -1,0 +1,29 @@
+{
+  "universe": "csi800",
+  "provider_uri": "USER_HOME/.qlib/qlib_data/cn_data",
+  "benchmark": "SH000906",
+  "start_time": "2023-01-01",
+  "end_time": "2025-12-31",
+  "account": 100000000.0,
+  "quote_universe": "all",
+  "strategy": {
+    "topk": 30,
+    "n_drop": 5,
+    "method_sell": "bottom",
+    "method_buy": "top",
+    "hold_thresh": 1,
+    "only_tradable": false,
+    "forbid_all_trade_at_limit": true,
+    "risk_degree": 0.95
+  },
+  "exchange": {
+    "freq": "day",
+    "limit_threshold": null,
+    "deal_price": "close",
+    "open_cost": 0.0005,
+    "close_cost": 0.0015,
+    "min_cost": 0.0
+  },
+  "exchange_instruments": "all",
+  "qlib_version": "0.9.7"
+}

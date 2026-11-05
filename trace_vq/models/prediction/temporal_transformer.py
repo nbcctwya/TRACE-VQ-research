@@ -137,6 +137,11 @@ class RotaryTransformerEncoderLayer(nn.Module):
         attn_weights = self.attn_dropout(attn_weights)
 
         attn_output = torch.matmul(attn_weights, v)
+        # Opt-in research gate: one input-dependent value per token/head,
+        # applied to attention output before concatenation/output projection.
+        if hasattr(self, "head_gate"):
+            gate = self.head_gate(x).sigmoid().transpose(1, 2).unsqueeze(-1)
+            attn_output = attn_output * gate
         attn_output = (
             attn_output.transpose(1, 2).contiguous().view(batch_size, seq_len, self.d_model)
         )

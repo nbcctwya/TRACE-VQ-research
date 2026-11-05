@@ -1,0 +1,9 @@
+number,item,name,status,expected_new_training_runs,complete_results,failures,expected_results
+1,G2,latent_mlp,already_implemented,0,0,,
+2,H4,tradable_filter,audited,0,0,,
+3,I1,ens_,complete,0,6,,6.0
+4,G1,tune800_,complete,4,4,,4.0
+5,K1/J2,gated_attn,complete,2,2,,2.0
+6,B3,fsq_wo_ca,complete,2,2,,2.0
+7,B2,fsq_ca_dim,complete,2,2,,2.0
+8,B1,fsq_grid,complete,2,2,,2.0

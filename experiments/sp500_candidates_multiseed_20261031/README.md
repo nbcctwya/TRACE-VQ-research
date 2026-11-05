@@ -1,5 +1,11 @@
 # SP500 候选五 seed 验证
 
+本次整理补充了[逐seed费用/换手汇总](cost_diagnostics.csv)：仅保存各seed的日均报告换手、
+原净收益/Sharpe及输入来源哈希，共20行。候选换手从本地Qlib逐日报告聚合，基线复用既有费用汇总；
+逐日报告与预测明细不进入Git。统一结果表的换手列引用此文件。
+维护命令为 `research/run.sh research/organize_experiment_results.py --refresh-local-turnover`，
+需要本地既有报告；普通整理命令只读取已纳入Git的聚合文档。
+
 股票池：SP500。种子：Stage 2: 0–4。记录数：20 条（15 次新训练、5 条复用基线）。
 
 FSQ、RankNet、FSQ+RankNet 各五 seeds，另训练一个共享的 FSQ Stage 1（seed 42）。未观察到稳定的综合优势。

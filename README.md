@@ -8,10 +8,14 @@
 从 [实验索引](experiments/README.md)、[指标口径](experiments/protocol.md) 和
 [分析指南](docs/analysis-guide.md) 开始。主要结果在：
 
-- [64 条去重单 seed 实验结果](experiments/single_seed_all.csv)。
-- [12 组五 seed 均值与标准差](experiments/multiseed_mean_std.csv)。
-- [60 行每 seed 指标](experiments/multiseed_per_seed.csv)。
-- [变体与代码对应](experiments/variants.csv)、[实际实验配置索引](experiments/config_index.csv)。
+- [全部研究及历史记录总览](experiments/overview.md)：包含既往实验和已完成的第01、02批，共16个研究/归档条目。
+- [148条去重后的逐seed研究结果](experiments/research_runs.csv)，对应[84个设置的均值与标准差](experiments/research_mean_std.csv)，其中16组完成五seed。
+- [7份预测集成结果](experiments/research_ensembles.csv)，与逐seed指标均值分开记录。
+- [超参数总表](experiments/hyperparameters.csv)、[198份配置快照索引](experiments/config_index.csv)和[变体与代码对应](experiments/variants.csv)。
+- [第一批结果](experiments/batch01_20261103/README.md)、[第二批结果](experiments/batch02_20261103/README.md)：新增训练分别为12次、20次；包含全部基线差值及耗时显存记录。
+
+去重结果数量包含历史模型复用，不是新增训练次数。前期64条单seed和60行多seed表保留为历史快照；
+历史消融、Stage1随机性和其他报价/指标口径的结果在各自目录保留，见总览中的比较边界。
 
 本地 `artifacts/`、原 `results/`、数据、权重、逐日/逐股票明细、日志及缓存保留在磁盘，
 由 `.gitignore` 排除。可公开的汇总统一放在 `experiments/`，包含较差结果和负结果。
