@@ -7,6 +7,8 @@ import argparse
 import hashlib
 import json
 import math
+import re
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -28,6 +30,21 @@ DESCRIPTIONS = {
     "tune800_heads4": "CSI800单独将Stage2注意力头数改为4。",
     "fsq_turnover": "原FSQ底座加相邻交易日标准化分数平滑，pairwise=0.1、平滑=0.05。",
     "fsq_turnover_control": "FSQ相同配对流程的零平滑惩罚控制组，保留pairwise=0.1。",
+    "code_delta": "FSQ相对过去1/5/20市场交易日的坐标差和缺失掩码。",
+    "code_dwell": "FSQ各维当前档位的持续时间，截断252日后log1p。",
+    "code_trans": "仅训练期估计的三维8×8状态转移概率。",
+    "code_vol": "FSQ过去5/20日坐标波动和有效观测比例。",
+    "fsq_gram2": "过去2个完整FSQ code的哈希嵌入与门控记忆。",
+    "fsq_gram3": "过去3个完整FSQ code的哈希嵌入与门控记忆。",
+    "code_hist_state": "同日FSQ边际档位分布与熵影响专家门控。",
+    "proto_memory": "读取历史code的冻结h EMA原型，按日期先读后更新。",
+    "moe_biasbal": "历史负载偏置均衡替代MoE均衡辅助损失。",
+    "expert_choice": "专家从完整当日截面选择固定容量股票。",
+    "moe_finegrained8": "8个宽16的路由专家，激活4个，保留共享专家。",
+    "moe_finegrained16": "16个宽8的路由专家，激活8个，保留共享专家。",
+    "soft_moe": "每专家4槽的dispatch/专家处理/combine及共享分支。",
+    "fsq_sort_route": "FSQ第0维固定低/中/高三组路由。",
+    "expert_k_all": "保持2个路由专家全部激活，top1参考直接复用。",
 }
 PRIMARY_TABLES = {
     "innovation_screen_20261026": "final_comparison.csv",
@@ -46,6 +63,8 @@ PRIMARY_TABLES = {
     "sp500_effect_diagnosis_20261101": "prediction_summary.csv",
     "batch01_20261103": "results.csv",
     "batch02_20261103": "results.csv",
+    "batch03_20261105": "results.csv",
+    "batch04_20261105": "results.csv",
 }
 
 
@@ -69,7 +88,7 @@ def update_configs():
     index.loc[old_baseline, "variant"] = "baseline"
     known = set(index.config_file)
     additions = []
-    for batch in ("batch01_20261103", "batch02_20261103"):
+    for batch in ("batch01_20261103", "batch02_20261103", "batch03_20261105", "batch04_20261105"):
         for path in sorted((EXP / batch / "configs").rglob("*.yaml")):
             relative = str(path.relative_to(ROOT))
             if relative in known:
@@ -120,8 +139,8 @@ def update_variants(configs):
         settings.pop("variant", None)
         additions.append(dict(variant=variant, description=DESCRIPTIONS[variant],
                               settings=json.dumps(settings, ensure_ascii=False, sort_keys=True),
-                              implementation="trace_vq/models/next_screen.py" if variant.startswith("fsq_turnover")
-                              else "trace_vq/models/batch01.py"))
+                              implementation="trace_vq/models/batch34.py" if row["batch"].startswith(("batch03","batch04"))
+                              else "trace_vq/models/next_screen.py" if variant.startswith("fsq_turnover") else "trace_vq/models/batch01.py"))
         known.add(variant)
     for variant, weight in (("ens_vq5", 1), ("ens_fsq5", 0), ("ens_vq_fsq", .5)):
         if variant not in known:
@@ -177,7 +196,9 @@ def refresh_sp500_cost_summary(configs):
 
 def collect_runs(configs):
     records, sources = {}, {}
-    inputs = ("single_seed_all.csv", "multiseed_per_seed.csv", "batch01_20261103/results.csv", "batch02_20261103/results.csv")
+    extra_inputs=[name+"/results.csv" for name in ("batch03_20261105","batch04_20261105") if (EXP/name/"results.csv").exists()]
+    extra_rows=sum(int(pd.read_csv(EXP/name).new_training.sum()) for name in extra_inputs)
+    inputs = ("single_seed_all.csv", "multiseed_per_seed.csv", "batch01_20261103/results.csv", "batch02_20261103/results.csv", *extra_inputs)
     for source in inputs:
         for incoming in pd.read_csv(EXP / source).to_dict("records"):
             seed = incoming.get("stage2_seed", incoming.get("seed"))
@@ -188,7 +209,7 @@ def collect_runs(configs):
             identity = (market, variant, int(seed))
             row = records.setdefault(identity, dict(universe=market, variant=variant, stage1_seed=42, stage2_seed=int(seed),
                                                     metric_protocol="protocol_v1", quote_universe="all",
-                                                    new_training_in_batch01=False, new_training_in_batch02=False))
+                                                    **{f"new_training_in_batch{i:02d}":False for i in range(1,5)}))
             sources.setdefault(identity, []).append("experiments/"+source)
             for metric in ALL_METRICS:
                 value = incoming.get(metric)
@@ -236,7 +257,7 @@ def collect_runs(configs):
         row["effective_config"] = config_reference(configs, *identity)
         rows.append(row)
     frame = pd.DataFrame(rows).sort_values(["universe", "variant", "stage2_seed"])
-    assert len(frame) == 148
+    assert len(frame) == 148+extra_rows
     assert int(frame.new_training_in_batch01.sum()) == 12
     assert int(frame.new_training_in_batch02.sum()) == 20
     frame.to_csv(EXP / "research_runs.csv", index=False)
@@ -253,7 +274,7 @@ def collect_runs(configs):
             row[metric+"_std"] = group[metric].std(ddof=1)
         aggregates.append(row)
     summary = pd.DataFrame(aggregates)
-    assert len(summary)==84 and int(summary.n_seeds.eq(5).sum())==16
+    assert len(summary)==84+extra_rows and int(summary.n_seeds.eq(5).sum())==16
     summary.to_csv(EXP / "research_mean_std.csv", index=False)
     return frame, summary
 
@@ -298,10 +319,11 @@ def update_catalog():
 
 
 def overview(frame, summary, ensembles, catalog, configs):
-    lines = ["# 实验结果总览", "", "整理日期：2026-11-05。目录包含既往研究、历史消融与训练随机性实验，以及清单第01、02批。", "",
+    date=datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    lines = ["# 实验结果总览", "", f"整理日期：{date}。目录包含既往研究、历史消融与训练随机性实验，以及已发布的清单批次。", "",
              f"同一研究指标/报价口径下，合并并去重后有 **{len(frame)}条股票池×变体×Stage2 seed结果**，"
              f"覆盖{len(summary)}个股票池×变体设置，其中16组完成五seed、其余为单seed探索；另有{len(ensembles)}份预测集成。", "",
-             "148条是已保存结果的覆盖数量，包含复用历史模型，不能解释为148次新增训练。"
+             f"{len(frame)}条是已保存命名结果记录的覆盖数量，包含复用历史模型与已记录失败，不能解释为{len(frame)}次成功新增训练。"
              "前两批新增Stage2训练分别为12次、20次，合计32次；Stage1均复用seed42。"
              "第01批有6份集成及G2/H4两项检查，第02批有4份复用seed0参考。", "",
              "## 统一入口", "",
@@ -310,7 +332,7 @@ def overview(frame, summary, ensembles, catalog, configs):
              "- [预测集成](research_ensembles.csv)：平均预测后单独回测，不能用各seed指标均值代替。",
              "- [超参数表](hyperparameters.csv) 与 [配置索引](config_index.csv)：实际YAML配置是超参数的完整出处。",
              "- [研究变体与实现](variants.csv)、[逐批目录](index.csv)、[指标口径](protocol.md)。", "",
-             "统一表来自既有single_seed_all.csv、multiseed_per_seed.csv及前两批results.csv；同一股票池、变体名和seed在不同表的重叠记录已合并，"
+             "统一表来自既有single_seed_all.csv、multiseed_per_seed.csv及各已发布批次results.csv；同一股票池、变体名和seed在不同表的重叠记录已合并，"
              "共同指标逐一核对一致，source_views保留全部出处。不同变体别名仍可能复用同一模型，详见各批复用说明，不能据此推算独立训练次数。"
              "换手依据已整理的cost_diagnostics.csv补齐，turnover_source注明出处；SP500候选新增费用汇总只导出本地逐日报告的均值及来源哈希。"
              "旧的64条/60行表保留为前期快照。"
@@ -343,6 +365,31 @@ def overview(frame, summary, ensembles, catalog, configs):
     (EXP / "overview.md").write_text("\n".join(lines))
 
 
+def refresh_navigation(frame,summary,catalog,configs):
+    updates={
+        "README.md":[(r"\d+条去重后的逐seed研究结果",f"{len(frame)}条去重后的逐seed研究结果"),
+                     (r"\d+个设置的均值与标准差",f"{len(summary)}个设置的均值与标准差"),
+                     (r"\d+份配置快照索引",f"{len(configs)}份配置快照索引"),
+                     (r"共\d+个研究/归档条目",f"共{len(catalog)}个研究/归档条目")],
+        "experiments/README.md":[(r"(\]\(research_runs\.csv\)：)\d+条",rf"\g<1>{len(frame)}条"),
+            (r"(\]\(research_mean_std\.csv\)：)\d+个设置",rf"\g<1>{len(summary)}个设置"),
+            (r"\d+组为单seed探索",f"{int(summary.n_seeds.eq(1).sum())}组为单seed探索"),
+            (r"(\]\(config_index\.csv\)：)\d+份",rf"\g<1>{len(configs)}份"),
+            (r"\d+条结果包括复用模型",f"{len(frame)}条结果包括复用模型"),
+            (r"不能当作\d+次新增训练",f"不能当作{len(frame)}次新增训练"),
+            (r"包含此前所有已收录实验及清单第01、02批", "包含此前所有已收录实验及已发布的清单批次")],
+        "docs/analysis-guide.md":[(r"\d+个研究/归档条目",f"{len(catalog)}个研究/归档条目"),
+            (r"\d+条研究结果、\d+个设置",f"{len(frame)}条研究结果、{len(summary)}个设置"),
+            (r"\d+份实际YAML配置",f"{len(configs)}份实际YAML配置")],
+        "docs/github-sync.md":[(r"\d+条去重逐seed结果、\d+个设置",f"{len(frame)}条去重逐seed结果、{len(summary)}个设置"),
+            (r"\d+份YAML配置",f"{len(configs)}份YAML配置")],
+    }
+    for name,patterns in updates.items():
+        path=ROOT/name;text=path.read_text()
+        for pattern,replacement in patterns:text=re.sub(pattern,replacement,text)
+        path.write_text(text)
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--refresh-local-turnover",action="store_true",
@@ -356,6 +403,7 @@ def main():
     ensembles=collect_ensembles()
     catalog=update_catalog()
     overview(frame, summary, ensembles, catalog, configs)
+    refresh_navigation(frame,summary,catalog,configs)
     print(json.dumps(dict(research_runs=len(frame), settings=len(summary), five_seed_settings=int(summary.n_seeds.eq(5).sum()),
                           prediction_ensembles=len(ensembles), studies=len(catalog), effective_configs=len(configs)),ensure_ascii=False))
 
