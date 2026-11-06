@@ -1,0 +1,17 @@
+universe,variant,status
+csi300,code_delta,complete
+csi300,code_dwell,complete
+csi300,code_hist_state,complete
+csi300,code_trans,complete
+csi300,code_vol,complete
+csi300,fsq_gram2,complete
+csi300,fsq_gram3,complete
+csi300,proto_memory,complete
+csi800,code_delta,complete
+csi800,code_dwell,complete
+csi800,code_hist_state,complete
+csi800,code_trans,complete
+csi800,code_vol,complete
+csi800,fsq_gram2,complete
+csi800,fsq_gram3,complete
+csi800,proto_memory,complete

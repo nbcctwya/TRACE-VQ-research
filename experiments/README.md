@@ -4,15 +4,15 @@
 
 优先阅读[完整研究总览](overview.md)与[统一口径](protocol.md)：
 
-- [research_runs.csv](research_runs.csv)：148条去重后的股票池×变体×Stage2 seed结果，保留全部来源视图。
-- [research_mean_std.csv](research_mean_std.csv)：84个设置；16组完成五seed，68组为单seed探索。单seed标准差留空。
+- [research_runs.csv](research_runs.csv)：178条去重后的股票池×变体×Stage2 seed结果，保留全部来源视图。
+- [research_mean_std.csv](research_mean_std.csv)：114个设置；16组完成五seed，98组为单seed探索。单seed标准差留空。
 - [research_ensembles.csv](research_ensembles.csv)：7份平均预测后单独回测的集成结果。
-- [hyperparameters.csv](hyperparameters.csv)、[config_index.csv](config_index.csv)：198份实际YAML配置及主要超参数。
+- [hyperparameters.csv](hyperparameters.csv)、[config_index.csv](config_index.csv)：228份实际YAML配置及主要超参数。
 - [variants.csv](variants.csv)：模型变体/预测集成与实现代码的对应关系。
 
-148条结果包括复用模型，不能当作148次新增训练。历史报价、Stage1多seed、两阶段多seed及诊断回放保留在下方各自目录。
+178条结果包括复用模型，不能当作178次新增训练。历史报价、Stage1多seed、两阶段多seed及诊断回放保留在下方各自目录。
 
-## 前两批已完成结果
+## 分批实验已完成结果
 
 [第01批](batch01_20261103/README.md)新增12次Stage2训练、6份预测集成，G2/H4按要求检查完成。
 CSI800的逐维FSQ残差与混合集成改善部分组合指标；CSI300新增单模型无收益/Sharpe优势。新增模型均仅seed0。
@@ -22,6 +22,18 @@ CSI300的VQ平滑降低换手，但平均回撤加深；CSI800原seed0强信号�
 FSQ平滑的单seed结果相对配对控制组较好，IC未改善，不能据此判定稳定性。
 
 前两批均零失败，Stage1复用seed42，实际配置、全部指标差值、训练/回测耗时和显存记录均在各批目录。
+
+[第03批](batch03_20261105/README.md)新增16次Stage2训练，另复用2份FSQ基线。CSI300状态分布门控净年化21.660%，
+较FSQ提高3.633个百分点，但回撤加深4.214个百分点；转移/波动特征改善CSI300组合指标，CSI800未复现收益/Sharpe提升。
+CSI800驻留特征净年化16.795%；原型记忆在CSI300虽提高相关系数，组合指标却明显变差。
+
+[第04批](batch04_20261105/README.md)新增14次Stage2训练，另复用4份VQ/FSQ基线，原top1不重复训练。
+CSI800 Soft MoE相对VQ六项指标改善，净年化11.822%；8专家细粒度方案净年化13.720%，但RankIC下降。
+两者收益仍低于原FSQ的14.281%。CSI300多数路由改动没有收益优势；FSQ固定路由在两个股票池都降低收益，且同时改变专家数。
+
+第三、第四批共30/30项于2026-11-06 19:08（UTC+8）完成，失败0项，全部完成独立预测核对与TopkDropout回测。
+均仅Stage2 seed0，Stage1复用对应seed42；没有新增预测集成。训练约12.76小时和至少10.12小时，后者包含已记录的中断重算下界。
+中断恢复、整卡GPU采样缺口及逐项PyTorch显存峰值均在报告中注明。四批合计62次新增Stage2训练，不能用含复用的结果行数替代。
 
 ## 前期候选五seed快照
 
@@ -67,6 +79,8 @@ CSI800 的 FSQ 和 FSQ+RankNet 相对基线更有希望；CSI300 的组合提高
 | [sp500_effect_diagnosis_20261101](sp500_effect_diagnosis_20261101/README.md) | SP500 预测、梯度与市场暴露诊断 | SP500 | 无新训练 |
 | [batch01_20261103](batch01_20261103/README.md) | 清单01–08：检查、集成和结构筛选 | CSI300 / CSI800 | 12次新训练、6份集成、2项检查 |
 | [batch02_20261103](batch02_20261103/README.md) | 清单09–10：平滑五seed复验与FSQ组合 | CSI300 / CSI800 | 20次新训练、4份复用，共24条结果 |
+| [batch03_20261105](batch03_20261105/README.md) | 清单11–17：FSQ状态变化与记忆 | CSI300 / CSI800 | 16次新训练、2份复用，共18条结果 |
+| [batch04_20261105](batch04_20261105/README.md) | 清单18–23：专家路由 | CSI300 / CSI800 | 14次新训练、4份复用，共18条结果 |
 
 前四轮的 14/26/20/24 行含复用对照，去重后为 64 条股票池 × 配置结果（32 个配置，每个用于两个股票池）。多 seed 表也含已跑的 seed 0 与历史基线；不能把各表行数相加当作新增训练次数。失败和较差的科学结果保留，技术 smoke 和资源中断重试不算新增方法。
 

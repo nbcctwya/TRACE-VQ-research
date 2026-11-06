@@ -1,0 +1,15 @@
+routing_mode,routing_days,routing_selected_experts_mean,routing_selected_experts_min,routing_selected_experts_max,routing_zero_route_fraction,routing_load_cv_squared,universe,variant,status
+expert_choice,727.0,1.000881945414589,0.9958734525447044,1.2668500687757909,1.3755157876867376e-05,0.0,csi300,expert_choice,complete
+all_experts,727.0,2.0,2.0,2.0,0.0,0.0,csi300,expert_k_all,complete
+fsq_sort,727.0,1.0,1.0,1.0,0.0,0.3749646969969695,csi300,fsq_sort_route,complete
+bias_balance,727.0,1.0,1.0,1.0,0.0,0.2767758585891828,csi300,moe_biasbal,complete
+finegrained,727.0,8.0,8.0,8.0,0.0,0.9143098309082704,csi300,moe_finegrained16,complete
+finegrained,727.0,4.0,4.0,4.0,0.0,0.2635752849762509,csi300,moe_finegrained8,complete
+soft_slots,727.0,2.0,2.0,2.0,0.0,0.0,csi300,soft_moe,complete
+expert_choice,727.0,1.000226006383253,0.9958734525447044,1.1815680880330124,5.1581842038252655e-06,0.0,csi800,expert_choice,complete
+all_experts,727.0,2.0,2.0,2.0,0.0,0.0,csi800,expert_k_all,complete
+fsq_sort,727.0,1.0,1.0,1.0,0.0,0.3641797345147008,csi800,fsq_sort_route,complete
+bias_balance,727.0,1.0,1.0,1.0,0.0,0.2472283994315251,csi800,moe_biasbal,complete
+finegrained,727.0,8.0,8.0,8.0,0.0,1.0666655024931224,csi800,moe_finegrained16,complete
+finegrained,727.0,4.0,4.0,4.0,0.0,0.3911813686113738,csi800,moe_finegrained8,complete
+soft_slots,727.0,2.0,2.0,2.0,0.0,0.0,csi800,soft_moe,complete

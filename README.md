@@ -8,11 +8,15 @@
 从 [实验索引](experiments/README.md)、[指标口径](experiments/protocol.md) 和
 [分析指南](docs/analysis-guide.md) 开始。主要结果在：
 
-- [全部研究及历史记录总览](experiments/overview.md)：包含既往实验和已完成的第01、02批，共16个研究/归档条目。
-- [148条去重后的逐seed研究结果](experiments/research_runs.csv)，对应[84个设置的均值与标准差](experiments/research_mean_std.csv)，其中16组完成五seed。
+- [全部研究及历史记录总览](experiments/overview.md)：包含既往实验和已完成的第01–04批，共18个研究/归档条目。
+- [178条去重后的逐seed研究结果](experiments/research_runs.csv)，对应[114个设置的均值与标准差](experiments/research_mean_std.csv)，其中16组完成五seed。
 - [7份预测集成结果](experiments/research_ensembles.csv)，与逐seed指标均值分开记录。
-- [超参数总表](experiments/hyperparameters.csv)、[198份配置快照索引](experiments/config_index.csv)和[变体与代码对应](experiments/variants.csv)。
+- [超参数总表](experiments/hyperparameters.csv)、[228份配置快照索引](experiments/config_index.csv)和[变体与代码对应](experiments/variants.csv)。
 - [第一批结果](experiments/batch01_20261103/README.md)、[第二批结果](experiments/batch02_20261103/README.md)：新增训练分别为12次、20次；包含全部基线差值及耗时显存记录。
+- [第三批结果](experiments/batch03_20261105/README.md)、[第四批结果](experiments/batch04_20261105/README.md)：新增训练分别为16次、14次，均完成独立评估与回测；包含正负结果解读、完整指标、配置、差值和资源记录。
+
+第三批CSI300状态分布门控增收但回撤加深；第四批CSI800 Soft MoE相对VQ改善六项指标，
+净年化仍低于原FSQ。两批均仅Stage2 seed0，不能据此判断稳定性。四批合计62次新增Stage2训练，Stage1均复用。
 
 去重结果数量包含历史模型复用，不是新增训练次数。前期64条单seed和60行多seed表保留为历史快照；
 历史消融、Stage1随机性和其他报价/指标口径的结果在各自目录保留，见总览中的比较边界。

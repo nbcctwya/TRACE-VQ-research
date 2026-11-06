@@ -3,6 +3,7 @@ import argparse
 import csv
 import fcntl
 import json
+import shutil
 import subprocess
 import time
 from datetime import datetime,timezone
@@ -15,12 +16,15 @@ def main():
     assert folder.is_relative_to(root/"artifacts/research")
     lock=(folder/"watchdog.lock").open("w");fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     path=folder/"resource_peaks.json";peaks=json.loads(path.read_text()) if path.exists() else {}
+    gpu_query=shutil.which("nvidia-smi")
+    if gpu_query is None:
+        gpu_query="/usr/lib/wsl/lib/nvidia-smi" if Path("/usr/lib/wsl/lib/nvidia-smi").is_file() else "nvidia-smi"
     last_warning=None
     while True:
         state=json.loads((folder/"progress.json").read_text());stamp=datetime.now(timezone.utc).isoformat()
         phase=state.get("current_phase") or "between_phases"
         try:
-            query=subprocess.run(["nvidia-smi","--query-gpu=index,utilization.gpu,memory.used,memory.total","--format=csv,noheader,nounits"],
+            query=subprocess.run([gpu_query,"--query-gpu=index,utilization.gpu,memory.used,memory.total","--format=csv,noheader,nounits"],
                                  capture_output=True,text=True,check=True,timeout=5)
             for line in query.stdout.splitlines():
                 index,utilization,used,total=[float(x.strip()) for x in line.split(",")]

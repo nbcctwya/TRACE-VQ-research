@@ -305,6 +305,8 @@ def update_catalog():
     for batch, finding in {
         "batch01_20261103": "CSI800逐维FSQ残差和混合集成改善组合指标；CSI300新单模型无收益/Sharpe优势。新模型仅seed0。",
         "batch02_20261103": "VQ平滑在CSI800未稳定复现；CSI300换手5/5降低但平均回撤加深。FSQ组合仅seed0，相对配对控制组较好。",
+        "batch03_20261105": "CSI300状态分布门控增收但回撤加深，转移/波动特征小幅改善；CSI800驻留特征增收。原型记忆无综合优势，均仅seed0。",
+        "batch04_20261105": "CSI800 Soft MoE对VQ六项指标改善，8专家增收但RankIC下降；两者收益仍低于FSQ。CSI300多数路由改动无收益优势，仅seed0。",
     }.items():
         index.loc[index.batch.eq(batch), "finding"] = finding
     for row_index, row in index.iterrows():
@@ -323,9 +325,10 @@ def overview(frame, summary, ensembles, catalog, configs):
     lines = ["# 实验结果总览", "", f"整理日期：{date}。目录包含既往研究、历史消融与训练随机性实验，以及已发布的清单批次。", "",
              f"同一研究指标/报价口径下，合并并去重后有 **{len(frame)}条股票池×变体×Stage2 seed结果**，"
              f"覆盖{len(summary)}个股票池×变体设置，其中16组完成五seed、其余为单seed探索；另有{len(ensembles)}份预测集成。", "",
-             f"{len(frame)}条是已保存命名结果记录的覆盖数量，包含复用历史模型与已记录失败，不能解释为{len(frame)}次成功新增训练。"
+             f"{len(frame)}条是已保存命名结果记录的覆盖数量，包含复用历史模型，不能解释为{len(frame)}次新增训练。"
              "前两批新增Stage2训练分别为12次、20次，合计32次；Stage1均复用seed42。"
-             "第01批有6份集成及G2/H4两项检查，第02批有4份复用seed0参考。", "",
+             "第01批有6份集成及G2/H4两项检查，第02批有4份复用seed0参考。"
+             "第03、04批分别新增16、14次Stage2训练，全部完成训练、独立预测核对和回测；四批合计62次新增Stage2训练，均无新增Stage1训练。", "",
              "## 统一入口", "",
              "- [逐seed去重结果](research_runs.csv)：全部聚合指标、各指标来源和配置引用；空白表示原汇总未记录。",
              "- [按设置统计均值与样本标准差](research_mean_std.csv)：n_seeds=1的标准差留空，每项指标另有有效样本数。",
@@ -350,13 +353,22 @@ def overview(frame, summary, ensembles, catalog, configs):
         for metric, digits, scale in (("RankIC",5,1),("AR",2,100),("Sharpe",3,1),("MDD",2,100)):
             cells.append(f"{row[metric+'_mean']*scale:.{digits}f} ± {row[metric+'_std']*scale:.{digits}f}")
         lines.append(f"| {row['universe']} | {row['variant']} | "+" | ".join(cells)+" |")
-    lines += ["", "## 前两批结论", "",
+    lines += ["", "## 分批实验结论", "",
               "- 第01批：CSI300新增单模型的收益和Sharpe均低于对应基线；VQ五seed集成有小幅改善。"
               "CSI800的fsq_ca_dim和混合集成改善组合指标，但前者RankIC下降，新增模型仅seed0。",
               "- 第02批：CSI300 VQ平滑相对配对控制组平均净年化提高1.02个百分点、日均换手减少3.49个百分点，"
               "平均回撤加深3.10个百分点。CSI800原seed0的强信号未稳定复现，新增seeds1–4平均净年化差值为-1.05个百分点。",
               "- FSQ平滑在两个股票池相对零惩罚配对控制组的RankIC、收益和Sharpe改善，IC未改善；"
-              "只有seed0。CSI300相对原FSQ基线的回撤更深，不能把对控制组的改善解释为所有维度都优于原基线。", "",
+              "只有seed0。CSI300相对原FSQ基线的回撤更深，不能把对控制组的改善解释为所有维度都优于原基线。",
+              "- 第03批：CSI300 code_hist_state净年化21.660%、较FSQ提高3.633个百分点，但回撤加深4.214个百分点。"
+              "code_trans/code_vol在CSI300改善收益、Sharpe和回撤，在CSI800未复现收益/Sharpe改善。"
+              "CSI800 code_dwell净年化16.795%、提高2.513个百分点；proto_memory在CSI300虽提高相关系数，却显著损害组合指标。",
+              "- 第04批：CSI800 soft_moe相对VQ六项指标均改善，净年化11.822%、提高4.939个百分点；"
+              "moe_finegrained8净年化13.720%、提高6.837个百分点，但RankIC下降。两者收益仍低于原FSQ的14.281%。"
+              "CSI300仅expert_k_all小幅增收，且相关系数下降、回撤略深。FSQ固定路由降低两个股票池的收益，且同时改变专家数量。",
+              "- 第03/04批仅Stage2 seed0，Stage1复用对应seed42；没有新增预测集成。"
+              "训练分别约12.76小时、至少10.12小时，后者另计至少14.15分钟中断重算。"
+              "第四批整卡GPU采样有缺口，逐项PyTorch显存峰值、实际时间字段及恢复说明见各批timing_memory.csv和README。", "",
               "所有弱结果、负结果和复用标签均保留。固定Stage1的五seed共享同一测试期；单seed结果和探索筛选不能支持统计显著或稳定性的结论。", "",
               "## Git内容与本地产物", "",
               f"当前收录{len(configs)}份有效YAML配置快照。Git只包含源码、超参数配置及Markdown/CSV/JSON聚合说明。"
