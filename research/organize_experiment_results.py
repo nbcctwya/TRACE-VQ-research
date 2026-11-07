@@ -45,6 +45,10 @@ DESCRIPTIONS = {
     "soft_moe": "每专家4槽的dispatch/专家处理/combine及共享分支。",
     "fsq_sort_route": "FSQ第0维固定低/中/高三组路由。",
     "expert_k_all": "保持2个路由专家全部激活，top1参考直接复用。",
+    "kda_temporal": "Stage2时间块改为原生PyTorch逐通道门控Delta递推，结构读取token置末尾。",
+    "mhc": "Stage2两条残差流，动态pre/post映射与20轮Sinkhorn双随机残差混合。",
+    "raven_context_experts": "FSQ路由5/10/20日窗口专家，短窗口塔不读取更早输入，保留共享分支。",
+    "s2_cross_attn": "Stage2载荷头前增加同日完整股票截面注意力，零初始化残差输出。",
 }
 PRIMARY_TABLES = {
     "innovation_screen_20261026": "final_comparison.csv",
@@ -65,6 +69,7 @@ PRIMARY_TABLES = {
     "batch02_20261103": "results.csv",
     "batch03_20261105": "results.csv",
     "batch04_20261105": "results.csv",
+    "batch05_20261106": "results.csv",
 }
 
 
@@ -88,7 +93,7 @@ def update_configs():
     index.loc[old_baseline, "variant"] = "baseline"
     known = set(index.config_file)
     additions = []
-    for batch in ("batch01_20261103", "batch02_20261103", "batch03_20261105", "batch04_20261105"):
+    for batch in ("batch01_20261103", "batch02_20261103", "batch03_20261105", "batch04_20261105", "batch05_20261106"):
         for path in sorted((EXP / batch / "configs").rglob("*.yaml")):
             relative = str(path.relative_to(ROOT))
             if relative in known:
@@ -139,7 +144,8 @@ def update_variants(configs):
         settings.pop("variant", None)
         additions.append(dict(variant=variant, description=DESCRIPTIONS[variant],
                               settings=json.dumps(settings, ensure_ascii=False, sort_keys=True),
-                              implementation="trace_vq/models/batch34.py" if row["batch"].startswith(("batch03","batch04"))
+                              implementation="trace_vq/models/batch05.py" if row["batch"].startswith("batch05") else
+                              "trace_vq/models/batch34.py" if row["batch"].startswith(("batch03","batch04"))
                               else "trace_vq/models/next_screen.py" if variant.startswith("fsq_turnover") else "trace_vq/models/batch01.py"))
         known.add(variant)
     for variant, weight in (("ens_vq5", 1), ("ens_fsq5", 0), ("ens_vq_fsq", .5)):
@@ -196,7 +202,7 @@ def refresh_sp500_cost_summary(configs):
 
 def collect_runs(configs):
     records, sources = {}, {}
-    extra_inputs=[name+"/results.csv" for name in ("batch03_20261105","batch04_20261105") if (EXP/name/"results.csv").exists()]
+    extra_inputs=[name+"/results.csv" for name in ("batch03_20261105","batch04_20261105","batch05_20261106") if (EXP/name/"results.csv").exists()]
     extra_rows=sum(int(pd.read_csv(EXP/name).new_training.sum()) for name in extra_inputs)
     inputs = ("single_seed_all.csv", "multiseed_per_seed.csv", "batch01_20261103/results.csv", "batch02_20261103/results.csv", *extra_inputs)
     for source in inputs:
@@ -209,7 +215,7 @@ def collect_runs(configs):
             identity = (market, variant, int(seed))
             row = records.setdefault(identity, dict(universe=market, variant=variant, stage1_seed=42, stage2_seed=int(seed),
                                                     metric_protocol="protocol_v1", quote_universe="all",
-                                                    **{f"new_training_in_batch{i:02d}":False for i in range(1,5)}))
+                                                    **{f"new_training_in_batch{i:02d}":False for i in range(1,6)}))
             sources.setdefault(identity, []).append("experiments/"+source)
             for metric in ALL_METRICS:
                 value = incoming.get(metric)
@@ -307,6 +313,7 @@ def update_catalog():
         "batch02_20261103": "VQ平滑在CSI800未稳定复现；CSI300换手5/5降低但平均回撤加深。FSQ组合仅seed0，相对配对控制组较好。",
         "batch03_20261105": "CSI300状态分布门控增收但回撤加深，转移/波动特征小幅改善；CSI800驻留特征增收。原型记忆无综合优势，均仅seed0。",
         "batch04_20261105": "CSI800 Soft MoE对VQ六项指标改善，8专家增收但RankIC下降；两者收益仍低于FSQ。CSI300多数路由改动无收益优势，仅seed0。",
+        "batch05_20261106": "CSI800 mHC对VQ六项指标改善；多窗口专家对FSQ增收、降低回撤/换手，但IC/RankIC下降。CSI300新方案无净年化优势，仅seed0。",
     }.items():
         index.loc[index.batch.eq(batch), "finding"] = finding
     for row_index, row in index.iterrows():
@@ -328,7 +335,7 @@ def overview(frame, summary, ensembles, catalog, configs):
              f"{len(frame)}条是已保存命名结果记录的覆盖数量，包含复用历史模型，不能解释为{len(frame)}次新增训练。"
              "前两批新增Stage2训练分别为12次、20次，合计32次；Stage1均复用seed42。"
              "第01批有6份集成及G2/H4两项检查，第02批有4份复用seed0参考。"
-             "第03、04批分别新增16、14次Stage2训练，全部完成训练、独立预测核对和回测；四批合计62次新增Stage2训练，均无新增Stage1训练。", "",
+             "第03、04批分别新增16、14次Stage2训练，第05批新增8次，均完成训练、独立预测核对和回测；前五批合计70次新增Stage2训练，均无新增Stage1训练。", "",
              "## 统一入口", "",
              "- [逐seed去重结果](research_runs.csv)：全部聚合指标、各指标来源和配置引用；空白表示原汇总未记录。",
              "- [按设置统计均值与样本标准差](research_mean_std.csv)：n_seeds=1的标准差留空，每项指标另有有效样本数。",
@@ -369,6 +376,10 @@ def overview(frame, summary, ensembles, catalog, configs):
               "- 第03/04批仅Stage2 seed0，Stage1复用对应seed42；没有新增预测集成。"
               "训练分别约12.76小时、至少10.12小时，后者另计至少14.15分钟中断重算。"
               "第四批整卡GPU采样有缺口，逐项PyTorch显存峰值、实际时间字段及恢复说明见各批timing_memory.csv和README。", "",
+              "- 第05批：CSI800 mHC相对VQ六项指标改善，净年化10.614%、提高3.732个百分点，仍低于原FSQ的14.281%。"
+              "多窗口专家相对FSQ净年化提高1.402个百分点、Sharpe提高0.083、回撤减少5.149个百分点、换手减少6.297个百分点，"
+              "但IC/RankIC下降。CSI300新方案均未提高对应基线净年化。KDA和跨股注意力未显示综合优势。"
+              "本批8/8项均完成，仅seed0；fit合计8.36小时，预测评估与回测11.28分钟，无中断或失败。", "",
               "所有弱结果、负结果和复用标签均保留。固定Stage1的五seed共享同一测试期；单seed结果和探索筛选不能支持统计显著或稳定性的结论。", "",
               "## Git内容与本地产物", "",
               f"当前收录{len(configs)}份有效YAML配置快照。Git只包含源码、超参数配置及Markdown/CSV/JSON聚合说明。"

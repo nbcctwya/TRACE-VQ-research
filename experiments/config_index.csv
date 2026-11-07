@@ -227,3 +227,11 @@ batch04_20261105,experiments/batch04_20261105/configs/csi800/moe_biasbal/seed0.y
 batch04_20261105,experiments/batch04_20261105/configs/csi800/moe_finegrained16/seed0.yaml,csi800,moe_finegrained16,0,artifacts/research/batch04_20261105/csi800/moe_finegrained16/seed0/effective.config.yaml
 batch04_20261105,experiments/batch04_20261105/configs/csi800/moe_finegrained8/seed0.yaml,csi800,moe_finegrained8,0,artifacts/research/batch04_20261105/csi800/moe_finegrained8/seed0/effective.config.yaml
 batch04_20261105,experiments/batch04_20261105/configs/csi800/soft_moe/seed0.yaml,csi800,soft_moe,0,artifacts/research/batch04_20261105/csi800/soft_moe/seed0/effective.config.yaml
+batch05_20261106,experiments/batch05_20261106/configs/csi300/kda_temporal/seed0.yaml,csi300,kda_temporal,0,artifacts/research/batch05_20261106/csi300/kda_temporal/seed0/effective.config.yaml
+batch05_20261106,experiments/batch05_20261106/configs/csi300/mhc/seed0.yaml,csi300,mhc,0,artifacts/research/batch05_20261106/csi300/mhc/seed0/effective.config.yaml
+batch05_20261106,experiments/batch05_20261106/configs/csi300/raven_context_experts/seed0.yaml,csi300,raven_context_experts,0,artifacts/research/batch05_20261106/csi300/raven_context_experts/seed0/effective.config.yaml
+batch05_20261106,experiments/batch05_20261106/configs/csi300/s2_cross_attn/seed0.yaml,csi300,s2_cross_attn,0,artifacts/research/batch05_20261106/csi300/s2_cross_attn/seed0/effective.config.yaml
+batch05_20261106,experiments/batch05_20261106/configs/csi800/kda_temporal/seed0.yaml,csi800,kda_temporal,0,artifacts/research/batch05_20261106/csi800/kda_temporal/seed0/effective.config.yaml
+batch05_20261106,experiments/batch05_20261106/configs/csi800/mhc/seed0.yaml,csi800,mhc,0,artifacts/research/batch05_20261106/csi800/mhc/seed0/effective.config.yaml
+batch05_20261106,experiments/batch05_20261106/configs/csi800/raven_context_experts/seed0.yaml,csi800,raven_context_experts,0,artifacts/research/batch05_20261106/csi800/raven_context_experts/seed0/effective.config.yaml
+batch05_20261106,experiments/batch05_20261106/configs/csi800/s2_cross_attn/seed0.yaml,csi800,s2_cross_attn,0,artifacts/research/batch05_20261106/csi800/s2_cross_attn/seed0/effective.config.yaml

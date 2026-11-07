@@ -4,13 +4,13 @@
 
 优先阅读[完整研究总览](overview.md)与[统一口径](protocol.md)：
 
-- [research_runs.csv](research_runs.csv)：178条去重后的股票池×变体×Stage2 seed结果，保留全部来源视图。
-- [research_mean_std.csv](research_mean_std.csv)：114个设置；16组完成五seed，98组为单seed探索。单seed标准差留空。
+- [research_runs.csv](research_runs.csv)：186条去重后的股票池×变体×Stage2 seed结果，保留全部来源视图。
+- [research_mean_std.csv](research_mean_std.csv)：122个设置；16组完成五seed，106组为单seed探索。单seed标准差留空。
 - [research_ensembles.csv](research_ensembles.csv)：7份平均预测后单独回测的集成结果。
-- [hyperparameters.csv](hyperparameters.csv)、[config_index.csv](config_index.csv)：228份实际YAML配置及主要超参数。
+- [hyperparameters.csv](hyperparameters.csv)、[config_index.csv](config_index.csv)：236份实际YAML配置及主要超参数。
 - [variants.csv](variants.csv)：模型变体/预测集成与实现代码的对应关系。
 
-178条结果包括复用模型，不能当作178次新增训练。历史报价、Stage1多seed、两阶段多seed及诊断回放保留在下方各自目录。
+186条结果包括复用模型，不能当作186次新增训练。历史报价、Stage1多seed、两阶段多seed及诊断回放保留在下方各自目录。
 
 ## 分批实验已完成结果
 
@@ -34,6 +34,12 @@ CSI800 Soft MoE相对VQ六项指标改善，净年化11.822%；8专家细粒度�
 第三、第四批共30/30项于2026-11-06 19:08（UTC+8）完成，失败0项，全部完成独立预测核对与TopkDropout回测。
 均仅Stage2 seed0，Stage1复用对应seed42；没有新增预测集成。训练约12.76小时和至少10.12小时，后者包含已记录的中断重算下界。
 中断恢复、整卡GPU采样缺口及逐项PyTorch显存峰值均在报告中注明。四批合计62次新增Stage2训练，不能用含复用的结果行数替代。
+
+[第05批](batch05_20261106/README.md)新增8次Stage2训练，另复用4份基线，8项均完成独立预测核对与TopkDropout回测。
+CSI800的mHC相对VQ六项指标改善，净年化10.614%，仍低于原FSQ的14.281%；多窗口专家相对FSQ净年化提高1.402个百分点，
+Sharpe、回撤及换手改善，但IC/RankIC下降。CSI300新方案均未提高对应基线的净年化。
+本批仅Stage2 seed0；训练8.36小时，预测评估和回测11.28分钟，无中断/失败，全部差值、实际配置与显存记录见报告。
+前五批合计70次新增Stage2训练，Stage1均复用。
 
 ## 前期候选五seed快照
 
@@ -81,6 +87,7 @@ CSI800 的 FSQ 和 FSQ+RankNet 相对基线更有希望；CSI300 的组合提高
 | [batch02_20261103](batch02_20261103/README.md) | 清单09–10：平滑五seed复验与FSQ组合 | CSI300 / CSI800 | 20次新训练、4份复用，共24条结果 |
 | [batch03_20261105](batch03_20261105/README.md) | 清单11–17：FSQ状态变化与记忆 | CSI300 / CSI800 | 16次新训练、2份复用，共18条结果 |
 | [batch04_20261105](batch04_20261105/README.md) | 清单18–23：专家路由 | CSI300 / CSI800 | 14次新训练、4份复用，共18条结果 |
+| [batch05_20261106](batch05_20261106/README.md) | 清单24–27：时间模块与截面交互 | CSI300 / CSI800 | 8次新训练、4份复用，共12条结果 |
 
 前四轮的 14/26/20/24 行含复用对照，去重后为 64 条股票池 × 配置结果（32 个配置，每个用于两个股票池）。多 seed 表也含已跑的 seed 0 与历史基线；不能把各表行数相加当作新增训练次数。失败和较差的科学结果保留，技术 smoke 和资源中断重试不算新增方法。
 
