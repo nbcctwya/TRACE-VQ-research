@@ -49,6 +49,17 @@ DESCRIPTIONS = {
     "mhc": "Stage2两条残差流，动态pre/post映射与20轮Sinkhorn双随机残差混合。",
     "raven_context_experts": "FSQ路由5/10/20日窗口专家，短窗口塔不读取更早输入，保留共享分支。",
     "s2_cross_attn": "Stage2载荷头前增加同日完整股票截面注意力，零初始化残差输出。",
+    "fsq_soft": "归一化FSQ取整/连续坐标共同投影至128维。",
+    "fsq_level_emb": "三维各8档可学习嵌入，初始化为原离散投影。",
+    "fsq_cross": "逐维嵌入加三组两两档位交互表。",
+    "fsq_grid_smooth": "相邻网格潜在因子值拉普拉斯惩罚，边两端相同CA条件。",
+    "fsq_shrink": "逐码截距向每维两档合并的父码截距收缩，频数只用训练期。",
+    "fsq_code_aug": "仅训练期对靠近半整数边界的坐标小概率翻到邻档。",
+    "kan_head": "3维FSQ网格驱动[3,16,128]小型B样条KAN潜在因子值头。",
+    "code_hypergraph": "同码或轴向邻码超边，Stage2完整同日截面消息传递。",
+    "hyper_loading": "离散code embedding生成rank4载荷权重增量。",
+    "film_code": "取消时间块结构token，以code逐层FiLM调制和学习CLS替代。",
+    "hopfield_retrieval": "同码/邻码受限候选池，检索成熟历史标签；严格交易日成熟约束。",
 }
 PRIMARY_TABLES = {
     "innovation_screen_20261026": "final_comparison.csv",
@@ -70,6 +81,8 @@ PRIMARY_TABLES = {
     "batch03_20261105": "results.csv",
     "batch04_20261105": "results.csv",
     "batch05_20261106": "results.csv",
+    "batch06_20261107": "results.csv",
+    "batch07_20261107": "results.csv",
 }
 
 
@@ -93,7 +106,7 @@ def update_configs():
     index.loc[old_baseline, "variant"] = "baseline"
     known = set(index.config_file)
     additions = []
-    for batch in ("batch01_20261103", "batch02_20261103", "batch03_20261105", "batch04_20261105", "batch05_20261106"):
+    for batch in ("batch01_20261103", "batch02_20261103", "batch03_20261105", "batch04_20261105", "batch05_20261106", "batch06_20261107", "batch07_20261107"):
         for path in sorted((EXP / batch / "configs").rglob("*.yaml")):
             relative = str(path.relative_to(ROOT))
             if relative in known:
@@ -144,7 +157,8 @@ def update_variants(configs):
         settings.pop("variant", None)
         additions.append(dict(variant=variant, description=DESCRIPTIONS[variant],
                               settings=json.dumps(settings, ensure_ascii=False, sort_keys=True),
-                              implementation="trace_vq/models/batch05.py" if row["batch"].startswith("batch05") else
+                              implementation="trace_vq/models/batch67.py" if row["batch"].startswith(("batch06","batch07")) else
+                              "trace_vq/models/batch05.py" if row["batch"].startswith("batch05") else
                               "trace_vq/models/batch34.py" if row["batch"].startswith(("batch03","batch04"))
                               else "trace_vq/models/next_screen.py" if variant.startswith("fsq_turnover") else "trace_vq/models/batch01.py"))
         known.add(variant)
@@ -202,7 +216,7 @@ def refresh_sp500_cost_summary(configs):
 
 def collect_runs(configs):
     records, sources = {}, {}
-    extra_inputs=[name+"/results.csv" for name in ("batch03_20261105","batch04_20261105","batch05_20261106") if (EXP/name/"results.csv").exists()]
+    extra_inputs=[name+"/results.csv" for name in ("batch03_20261105","batch04_20261105","batch05_20261106","batch06_20261107","batch07_20261107") if (EXP/name/"results.csv").exists()]
     extra_rows=sum(int(pd.read_csv(EXP/name).new_training.sum()) for name in extra_inputs)
     inputs = ("single_seed_all.csv", "multiseed_per_seed.csv", "batch01_20261103/results.csv", "batch02_20261103/results.csv", *extra_inputs)
     for source in inputs:
@@ -215,7 +229,7 @@ def collect_runs(configs):
             identity = (market, variant, int(seed))
             row = records.setdefault(identity, dict(universe=market, variant=variant, stage1_seed=42, stage2_seed=int(seed),
                                                     metric_protocol="protocol_v1", quote_universe="all",
-                                                    **{f"new_training_in_batch{i:02d}":False for i in range(1,6)}))
+                                                    **{f"new_training_in_batch{i:02d}":False for i in range(1,8)}))
             sources.setdefault(identity, []).append("experiments/"+source)
             for metric in ALL_METRICS:
                 value = incoming.get(metric)
@@ -314,6 +328,8 @@ def update_catalog():
         "batch03_20261105": "CSI300状态分布门控增收但回撤加深，转移/波动特征小幅改善；CSI800驻留特征增收。原型记忆无综合优势，均仅seed0。",
         "batch04_20261105": "CSI800 Soft MoE对VQ六项指标改善，8专家增收但RankIC下降；两者收益仍低于FSQ。CSI300多数路由改动无收益优势，仅seed0。",
         "batch05_20261106": "CSI800 mHC对VQ六项指标改善；多窗口专家对FSQ增收、降低回撤/换手，但IC/RankIC下降。CSI300新方案无净年化优势，仅seed0。",
+        "batch06_20261107": "CSI300档位嵌入改善收益/Sharpe/回撤；CSI800边界增强增收4.267个百分点，但IC/RankIC下降且CSI300结果变差。仅seed0。",
+        "batch07_20261107": "CSI300历史检索六项指标改善、增收1.055个百分点，CSI800未复现；本批CSI800无同时提高年化与Sharpe的方案。仅seed0。",
     }.items():
         index.loc[index.batch.eq(batch), "finding"] = finding
     for row_index, row in index.iterrows():
@@ -335,7 +351,7 @@ def overview(frame, summary, ensembles, catalog, configs):
              f"{len(frame)}条是已保存命名结果记录的覆盖数量，包含复用历史模型，不能解释为{len(frame)}次新增训练。"
              "前两批新增Stage2训练分别为12次、20次，合计32次；Stage1均复用seed42。"
              "第01批有6份集成及G2/H4两项检查，第02批有4份复用seed0参考。"
-             "第03、04批分别新增16、14次Stage2训练，第05批新增8次，均完成训练、独立预测核对和回测；前五批合计70次新增Stage2训练，均无新增Stage1训练。", "",
+             "第03、04批分别新增16、14次Stage2训练，第05批新增8次，第06、07批新增14、8次，均完成训练、独立预测核对和回测；前七批合计92次新增Stage2训练，均无新增Stage1训练。", "",
              "## 统一入口", "",
              "- [逐seed去重结果](research_runs.csv)：全部聚合指标、各指标来源和配置引用；空白表示原汇总未记录。",
              "- [按设置统计均值与样本标准差](research_mean_std.csv)：n_seeds=1的标准差留空，每项指标另有有效样本数。",
@@ -380,6 +396,12 @@ def overview(frame, summary, ensembles, catalog, configs):
               "多窗口专家相对FSQ净年化提高1.402个百分点、Sharpe提高0.083、回撤减少5.149个百分点、换手减少6.297个百分点，"
               "但IC/RankIC下降。CSI300新方案均未提高对应基线净年化。KDA和跨股注意力未显示综合优势。"
               "本批8/8项均完成，仅seed0；fit合计8.36小时，预测评估与回测11.28分钟，无中断或失败。", "",
+              "- 第06批：CSI300逐维档位嵌入净年化19.394%、较FSQ提高1.367个百分点，Sharpe/回撤改善但IC/RankIC略降。"
+              "CSI800边界邻档增强净年化18.548%、提高4.267个百分点，Sharpe/回撤/换手改善，但IC/RankIC下降，且CSI300增强结果变差。"
+              "离散与连续坐标并用在两个股票池均未增收；KAN表现不一致。本批14/14项完成，fit11.63小时，预测评估与回测17.69分钟。",
+              "- 第07批：CSI300历史Hopfield检索六项指标改善，净年化19.082%、较FSQ提高1.055个百分点，CSI800未复现。"
+              "CSI300超网络载荷增收但RankIC下降、回撤加深；CSI800 FiLM增收但Sharpe下降、回撤加深，本批CSI800无同时提高年化和Sharpe的方案。"
+              "本批8/8项完成，fit6.75小时，预测评估与回测9.86分钟。两批均仅seed0、Stage1复用；零中断/失败，无新增集成。", "",
               "所有弱结果、负结果和复用标签均保留。固定Stage1的五seed共享同一测试期；单seed结果和探索筛选不能支持统计显著或稳定性的结论。", "",
               "## Git内容与本地产物", "",
               f"当前收录{len(configs)}份有效YAML配置快照。Git只包含源码、超参数配置及Markdown/CSV/JSON聚合说明。"
