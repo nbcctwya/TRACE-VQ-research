@@ -60,6 +60,25 @@ DESCRIPTIONS = {
     "hyper_loading": "离散code embedding生成rank4载荷权重增量。",
     "film_code": "取消时间块结构token，以code逐层FiLM调制和学习CLS替代。",
     "hopfield_retrieval": "同码/邻码受限候选池，检索成熟历史标签；严格交易日成熟约束。",
+    "s1_predw_1e3": "FSQ Stage1预测监督权重0.001，重新训练两阶段。",
+    "s1_predw_1e2": "FSQ Stage1预测监督权重0.01，重新训练两阶段。",
+    "s1_predw_1e1": "FSQ Stage1预测监督权重0.1，重新训练两阶段。",
+    "fsq_ifsq": "FSQ限幅tanh(0.8x)尺度对照。",
+    "fsq_cs": "量化前按完整同日截面对投影维度z-score。",
+    "fsq_rank": "同日截面平均并列rank分八档，原有界投影STE。",
+    "fsq_levels_44442": "512码FSQ，档位[4,4,4,4,2]。",
+    "fsq_levels_binary9": "512码FSQ，9个二档维度；独立于球面BSQ。",
+    "fsq_levels_16162": "512码FSQ，档位[16,16,2]。",
+    "sinkhorn_quant": "512中心log-Sinkhorn软均衡，硬前向、软重建梯度。",
+    "bsq_tokenizer": "9bit球面符号量化和精确联合熵目标。",
+    "fsq_res": "27码粗FSQ加512码LayerNorm残差细FSQ。",
+    "fsq_scale": "FSQ逐维正尺度，初始为1。",
+    "fsq_dither": "Stage1训练用均匀噪声替代硬取整，推理恢复硬码。",
+    "fsq_ortho": "FSQ投影维度截面相关非对角惩罚。",
+    "fsq_style_orth": "与实际个股ROC20/STD20/BETA20/VSTD20风格去相关。",
+    "fsq_hybrid": "3维离散坐标与4维连续支路联合投影至128维。",
+    "fsq_group": "两组64维表示各用512码FSQ，无联合one-hot。",
+    "fsq_contrast": "同股票前一市场日正样本、完整截面编码的对称InfoNCE。",
 }
 PRIMARY_TABLES = {
     "innovation_screen_20261026": "final_comparison.csv",
@@ -83,6 +102,8 @@ PRIMARY_TABLES = {
     "batch05_20261106": "results.csv",
     "batch06_20261107": "results.csv",
     "batch07_20261107": "results.csv",
+    "batch08_20261108": "results.csv",
+    "batch09_20261108": "results.csv",
 }
 
 
@@ -98,6 +119,16 @@ def is_stage1(path):
     return any(part.startswith("stage1") for part in Path(path).parts)
 
 
+def effective_vocab(cfg):
+    q=cfg.get('vqvae',{}).get('quantizer',{});r=cfg.get('research',{});kind=q.get('research_kind')
+    if kind=='batch89':
+        if r.get('quantizer')=='residual':return math.prod(r['coarse_levels'])*math.prod(r['fine_levels'])
+        if r.get('quantizer')=='grouped':return math.prod(r['levels_per_group'])**r['groups']
+    if kind=='rvq':return math.prod(q['research_sizes'])
+    if q.get('research_levels'):return math.prod(q['research_levels'])
+    return cfg.get('vqvae',{}).get('num_embed')
+
+
 def update_configs():
     index = pd.read_csv(EXP / "config_index.csv")
     for batch, variant in {"025": "wo_ta", "034": "full", "037": "wo_ca", "038": "wo_sr"}.items():
@@ -106,7 +137,7 @@ def update_configs():
     index.loc[old_baseline, "variant"] = "baseline"
     known = set(index.config_file)
     additions = []
-    for batch in ("batch01_20261103", "batch02_20261103", "batch03_20261105", "batch04_20261105", "batch05_20261106", "batch06_20261107", "batch07_20261107"):
+    for batch in ("batch01_20261103", "batch02_20261103", "batch03_20261105", "batch04_20261105", "batch05_20261106", "batch06_20261107", "batch07_20261107", "batch08_20261108", "batch09_20261108"):
         for path in sorted((EXP / batch / "configs").rglob("*.yaml")):
             relative = str(path.relative_to(ROOT))
             if relative in known:
@@ -129,7 +160,8 @@ def update_configs():
             batch=row["batch"], universe=row["universe"], variant=row["variant"],
             training_stage="stage1" if is_stage1(row["config_file"]) else "stage2", train_seed=row["train_seed"],
             config_file=row["config_file"], seq_len=vq.get("seq_len"), encoder_hidden=vq.get("hidden_size"),
-            stage1_embed_dim=vq.get("vq_embed_dim"),
+            stage1_embed_dim=vq.get("vq_embed_dim"),stage1_pred_weight=vq.get("predictor",{}).get("pred_weight"),
+            effective_vocab_size=effective_vocab(cfg),
             stage2_latent_dim=predictor.get("stage2_latent_dim", vq.get("vq_embed_dim")),
             quantizer_kind=quantizer.get("research_kind", research.get("quantizer_kind", "legacy_vq")),
             fsq_levels=json.dumps(quantizer.get("research_levels", research.get("levels"))),
@@ -157,7 +189,8 @@ def update_variants(configs):
         settings.pop("variant", None)
         additions.append(dict(variant=variant, description=DESCRIPTIONS[variant],
                               settings=json.dumps(settings, ensure_ascii=False, sort_keys=True),
-                              implementation="trace_vq/models/batch67.py" if row["batch"].startswith(("batch06","batch07")) else
+                              implementation="trace_vq/models/batch89.py" if row["batch"].startswith(("batch08","batch09")) else
+                              "trace_vq/models/batch67.py" if row["batch"].startswith(("batch06","batch07")) else
                               "trace_vq/models/batch05.py" if row["batch"].startswith("batch05") else
                               "trace_vq/models/batch34.py" if row["batch"].startswith(("batch03","batch04"))
                               else "trace_vq/models/next_screen.py" if variant.startswith("fsq_turnover") else "trace_vq/models/batch01.py"))
@@ -216,7 +249,7 @@ def refresh_sp500_cost_summary(configs):
 
 def collect_runs(configs):
     records, sources = {}, {}
-    extra_inputs=[name+"/results.csv" for name in ("batch03_20261105","batch04_20261105","batch05_20261106","batch06_20261107","batch07_20261107") if (EXP/name/"results.csv").exists()]
+    extra_inputs=[name+"/results.csv" for name in ("batch03_20261105","batch04_20261105","batch05_20261106","batch06_20261107","batch07_20261107","batch08_20261108","batch09_20261108") if (EXP/name/"results.csv").exists()]
     extra_rows=sum(int(pd.read_csv(EXP/name).new_training.sum()) for name in extra_inputs)
     inputs = ("single_seed_all.csv", "multiseed_per_seed.csv", "batch01_20261103/results.csv", "batch02_20261103/results.csv", *extra_inputs)
     for source in inputs:
@@ -229,7 +262,7 @@ def collect_runs(configs):
             identity = (market, variant, int(seed))
             row = records.setdefault(identity, dict(universe=market, variant=variant, stage1_seed=42, stage2_seed=int(seed),
                                                     metric_protocol="protocol_v1", quote_universe="all",
-                                                    **{f"new_training_in_batch{i:02d}":False for i in range(1,8)}))
+                                                    **{f"new_training_in_batch{i:02d}":False for i in range(1,10)}))
             sources.setdefault(identity, []).append("experiments/"+source)
             for metric in ALL_METRICS:
                 value = incoming.get(metric)
@@ -252,7 +285,7 @@ def collect_runs(configs):
             if source.startswith("batch") and new:
                 batch = source.split("/")[0].split("_")[0]
                 row["new_training_in_"+batch] = True
-                for field in ("training_seconds", "evaluation_backtest_seconds", "gpu_peak_allocated_mib", "gpu_peak_reserved_mib"):
+                for field in ("training_seconds", "stage1_training_seconds", "stage2_training_seconds", "stage1_retrained", "stage1_checkpoint_sha256", "evaluation_backtest_seconds", "gpu_peak_allocated_mib", "gpu_peak_reserved_mib"):
                     if present(incoming.get(field)):
                         row[field] = incoming[field]
             row["source_csv"] = "experiments/"+source
@@ -367,6 +400,16 @@ def overview(frame, summary, ensembles, catalog, configs):
              "| 批次 | 内容 | 记录说明 |", "| --- | --- | --- |"]
     for row in catalog.to_dict("records"):
         lines.append(f"| [{row['batch']}]({row['readme']}) | {row['description']} | {row['records']} |")
+    completed_batches=set()
+    for batch,expected in (("batch08_20261108",22),("batch09_20261108",16)):
+        flag="new_training_in_"+batch.split("_")[0]
+        if flag in frame:
+            rows=frame.loc[frame[flag].eq(True)]
+            if len(rows)==expected and rows.status.eq("complete").all():
+                completed_batches.add(batch)
+    if {"batch08_20261108","batch09_20261108"}.issubset(completed_batches):
+        lines += ["", "第八、九批新增22、16组两阶段实验，共38次Stage1 seed42与38次Stage2 seed0训练，"
+                  "均完成独立预测核对和回测；原FSQ为复用对照，无新增预测集成。"]
     lines += ["", "历史CSI300消融的股票池报价、Stage1多seed和两阶段多seed的随机性设置，以及原native/protocol混合记录，"
               "保留在各自目录，未强行混入统一研究表。诊断与口径回放同样单独列示，不能按文件行数统计新增训练。", "",
               "## 已完成五seed的研究设置", "", "下表为各seed独立组合指标的均值±样本标准差；净年化、MDD为百分比。", "",
@@ -407,6 +450,20 @@ def overview(frame, summary, ensembles, catalog, configs):
               f"当前收录{len(configs)}份有效YAML配置快照。Git只包含源码、超参数配置及Markdown/CSV/JSON聚合说明。"
               "artifacts/中的数据、权重、预测、逐日回测、日志、缓存、监控记录与历史Git备份由.gitignore排除。"
               "原始基线证据research/baseline/保留原字节。重建训练或回测需要另行提供本地数据和权重。", ""]
+    new_conclusions=[]
+    if "batch08_20261108" in completed_batches:
+        new_conclusions.append("- 第08批：22组均重训Stage1 seed42与Stage2 seed0。CSI300收益监督权重0.001净年化21.508%、"
+            "较FSQ提高3.481个百分点，Sharpe提高0.080，但回撤加深8.041个百分点、RankIC下降。"
+            "CSI800的11种方案净年化均低于原FSQ；五维档位[4,4,4,4,2]提高CSI300的RankIC但降低收益。"
+            "fit合计56.20小时，预测评估与回测30.41分钟。")
+    if "batch09_20261108" in completed_batches:
+        new_conclusions.append("- 第09批：16组均重训Stage1 seed42与Stage2 seed0。CSI800可学习尺度FSQ净年化14.553%、"
+            "提高0.271个百分点，Sharpe提高0.079、回撤减少6.365个百分点、换手略降，但IC/RankIC下降。"
+            "CSI300对比学习净年化提高1.913个百分点、回撤加深；CSI800对比学习净年化下降5.851个百分点。"
+            "fit合计54.83小时，预测评估与回测21.90分钟。")
+    if new_conclusions:
+        insertion=next(i for i,line in enumerate(lines) if line.startswith("所有弱结果、负结果和复用标签均保留。"))
+        lines[insertion:insertion]=new_conclusions+[""]
     (EXP / "overview.md").write_text("\n".join(lines))
 
 

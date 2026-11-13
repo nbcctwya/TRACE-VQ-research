@@ -4,13 +4,13 @@
 
 优先阅读[完整研究总览](overview.md)与[统一口径](protocol.md)：
 
-- [research_runs.csv](research_runs.csv)：208条去重后的股票池×变体×Stage2 seed结果，保留全部来源视图。
-- [research_mean_std.csv](research_mean_std.csv)：144个设置；16组完成五seed，128组为单seed探索。单seed标准差留空。
+- [research_runs.csv](research_runs.csv)：246条去重后的股票池×变体×Stage2 seed结果，保留全部来源视图。
+- [research_mean_std.csv](research_mean_std.csv)：182个设置；16组完成五seed，166组为单seed探索。单seed标准差留空。
 - [research_ensembles.csv](research_ensembles.csv)：7份平均预测后单独回测的集成结果。
-- [hyperparameters.csv](hyperparameters.csv)、[config_index.csv](config_index.csv)：258份实际YAML配置及主要超参数。
+- [hyperparameters.csv](hyperparameters.csv)、[config_index.csv](config_index.csv)：334份实际YAML配置及主要超参数。
 - [variants.csv](variants.csv)：模型变体/预测集成与实现代码的对应关系。
 
-208条结果包括复用模型，不能当作208次新增训练。历史报价、Stage1多seed、两阶段多seed及诊断回放保留在下方各自目录。
+246条结果包括复用模型，不能当作246次新增训练。历史报价、Stage1多seed、两阶段多seed及诊断回放保留在下方各自目录。
 
 ## 分批实验已完成结果
 
@@ -49,6 +49,18 @@ CSI800边界邻档增强净年化18.548%，提高4.267个百分点，Sharpe/回�
 CSI300历史Hopfield检索六项指标改善，净年化19.082%、提高1.055个百分点；CSI800未复现，且本批CSI800无同时提高年化与Sharpe的方案。
 两批合计22/22项于2026-11-08 07:40（UTC+8）完成，训练11.63/6.75小时，预测评估与回测17.69/9.86分钟，零中断、零失败。
 均仅Stage2 seed0；前七批共92次新增Stage2训练，Stage1均复用，无新增预测集成。
+
+[第08批](batch08_20261108/README.md)新增22组两阶段训练，比较Stage1收益监督权重与量化器。
+CSI300监督权重0.001净年化21.508%、提高3.481个百分点，Sharpe提高0.080，但最大回撤加深8.041个百分点、RankIC下降；
+CSI800的11种方案净年化均低于原FSQ。五维档位[4,4,4,4,2]提高CSI300的RankIC，但未改善组合收益。
+
+[第09批](batch09_20261108/README.md)新增16组两阶段训练。CSI800可学习尺度FSQ净年化14.553%、提高0.271个百分点，
+Sharpe提高0.079、回撤减少6.365个百分点、换手略降，但IC/RankIC下降。
+CSI300对比学习净年化19.940%、提高1.913个百分点，但回撤加深；CSI800对比学习净年化下降5.851个百分点。
+
+两批38/38组于2026-11-13 05:20（UTC+8）完成，新增38次Stage1 seed42与38次Stage2 seed0训练，原FSQ对照复用已有结果。
+均完成独立预测核对和TopkDropout回测，无新增预测集成、训练失败或中断恢复。fit分别56.20/54.83小时，预测评估与回测30.41/21.90分钟。
+全部38组和76份阶段配置均已收录；单seed结果不能说明稳定性或统计显著。
 
 ## 前期候选五seed快照
 
@@ -99,6 +111,8 @@ CSI800 的 FSQ 和 FSQ+RankNet 相对基线更有希望；CSI300 的组合提高
 | [batch05_20261106](batch05_20261106/README.md) | 清单24–27：时间模块与截面交互 | CSI300 / CSI800 | 8次新训练、4份复用，共12条结果 |
 | [batch06_20261107](batch06_20261107/README.md) | 清单28–34：FSQ网格表达与预测头 | CSI300 / CSI800 | 14次新训练、2份复用，共16条结果 |
 | [batch07_20261107](batch07_20261107/README.md) | 清单35–38：码条件化与关系检索 | CSI300 / CSI800 | 8次新训练、2份复用，共10条结果 |
+| [batch08_20261108](batch08_20261108/README.md) | 清单39–45：Stage1监督与量化器 | CSI300 / CSI800 | 22组两阶段新训练、2份复用，共24条结果 |
+| [batch09_20261108](batch09_20261108/README.md) | 清单46–53：FSQ进一步改造 | CSI300 / CSI800 | 16组两阶段新训练、2份复用，共18条结果 |
 
 前四轮的 14/26/20/24 行含复用对照，去重后为 64 条股票池 × 配置结果（32 个配置，每个用于两个股票池）。多 seed 表也含已跑的 seed 0 与历史基线；不能把各表行数相加当作新增训练次数。失败和较差的科学结果保留，技术 smoke 和资源中断重试不算新增方法。
 

@@ -8,20 +8,24 @@
 从 [实验索引](experiments/README.md)、[指标口径](experiments/protocol.md) 和
 [分析指南](docs/analysis-guide.md) 开始。主要结果在：
 
-- [全部研究及历史记录总览](experiments/overview.md)：包含既往实验和已完成的第01–07批，共21个研究/归档条目。
-- [208条去重后的逐seed研究结果](experiments/research_runs.csv)，对应[144个设置的均值与标准差](experiments/research_mean_std.csv)，其中16组完成五seed。
+- [全部研究及历史记录总览](experiments/overview.md)：包含既往实验和已完成的第01–09批，共23个研究/归档条目。
+- [246条去重后的逐seed研究结果](experiments/research_runs.csv)，对应[182个设置的均值与标准差](experiments/research_mean_std.csv)，其中16组完成五seed。
 - [7份预测集成结果](experiments/research_ensembles.csv)，与逐seed指标均值分开记录。
-- [超参数总表](experiments/hyperparameters.csv)、[258份配置快照索引](experiments/config_index.csv)和[变体与代码对应](experiments/variants.csv)。
+- [超参数总表](experiments/hyperparameters.csv)、[334份配置快照索引](experiments/config_index.csv)和[变体与代码对应](experiments/variants.csv)。
 - [第一批结果](experiments/batch01_20261103/README.md)、[第二批结果](experiments/batch02_20261103/README.md)：新增训练分别为12次、20次；包含全部基线差值及耗时显存记录。
 - [第三批结果](experiments/batch03_20261105/README.md)、[第四批结果](experiments/batch04_20261105/README.md)：新增训练分别为16次、14次，均完成独立评估与回测；包含正负结果解读、完整指标、配置、差值和资源记录。
 - [第五批结果](experiments/batch05_20261106/README.md)：KDA、mHC、多窗口专家与Stage2跨股票注意力，共8次新训练，包含全部指标、基线差值、配置及耗时显存。
 - [第六批结果](experiments/batch06_20261107/README.md)、[第七批结果](experiments/batch07_20261107/README.md)：FSQ网格与码条件化/历史检索，分别14、8次新训练，均完成独立预测核对和回测。
+- [第八批结果](experiments/batch08_20261108/README.md)、[第九批结果](experiments/batch09_20261108/README.md)：Stage1监督与量化器改造，分别22、16组两阶段训练，包含76份配置、完整指标、基线差值和资源记录。
 
 第三批CSI300状态分布门控增收但回撤加深；第四批CSI800 Soft MoE相对VQ改善六项指标，
 净年化仍低于原FSQ。第五批CSI800的mHC相对VQ改善六项指标，多窗口专家相对FSQ提高收益、Sharpe并减少回撤和换手，
 但IC/RankIC下降；CSI300新增方案均未提高净年化。以上均仅Stage2 seed0，不能据此判断稳定性。
 第六批CSI800边界增强改善收益和回撤，但IC/RankIC下降，且CSI300结果变差；第七批CSI300历史检索六项指标改善，CSI800未复现。
 前七批合计92次新增Stage2训练，Stage1均复用。
+第八、九批另新增38次Stage1与38次Stage2训练，全部完成独立预测核对和回测，无训练失败或中断恢复。
+CSI300的Stage1收益监督权重0.001提高净年化和Sharpe，但回撤加深；CSI800可学习尺度FSQ改善收益、Sharpe与回撤，IC/RankIC下降。
+两批均只有Stage1 seed42与Stage2 seed0，原FSQ对照复用已有结果，不能据此判断稳定提升。
 
 去重结果数量包含历史模型复用，不是新增训练次数。前期64条单seed和60行多seed表保留为历史快照；
 历史消融、Stage1随机性和其他报价/指标口径的结果在各自目录保留，见总览中的比较边界。

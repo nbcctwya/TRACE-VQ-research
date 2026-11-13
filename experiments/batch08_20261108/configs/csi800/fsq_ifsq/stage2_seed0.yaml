@@ -1,0 +1,146 @@
+defaults:
+- _self_
+- experiment: null
+artifact_root: ./artifacts/research/batch0809_20261108/batch08_20261108/csi800/fsq_ifsq/stage2/seed0
+vqvae:
+  num_features: 158
+  seq_len: 20
+  hidden_size: 128
+  num_prior_factors: 13
+  vq_embed_dim: 128
+  num_embed: 512
+  encoder:
+    type: temporal-attention
+    num_heads: 2
+    num_layers: 1
+    temporal_dropout: 0.1
+  quantizer:
+    decay: 0.95
+    commit_weight: 0.25
+    distance: l2
+    anchor: probrandom
+    first_batch: false
+    contras_loss: true
+    research_kind: batch89
+    research_levels:
+    - 8
+    - 8
+    - 8
+    batch89_settings:
+      batch: 8
+      family: fsq
+      item: A1
+      quantizer: ifsq
+      bound_scale: 0.8
+    batch89_source_sha256:
+      trace_vq/models/batch89_quantizers.py: 2f4167ec6f0a8486f729fb5c84b8d99c3484eab771af9f3aeb7b1a58df88d327
+      trace_vq/models/batch89.py: 9440db0dd67cb90ede26cfafd1eaf0fc806e0679998509e14361adfc4ccb5a7a
+      trace_vq/data/batch89.py: cd7b5029339d4e7f6d371bdd94390d40d621ade8df79590c5a495c6bafd606af
+  decoder:
+    norm_type: none
+    num_groups: 8
+    hidden_channels: 128
+    initial_T: 5
+  predictor:
+    pred_len: 10
+    num_gru_layers: 1
+    dropout: 0.1
+    output_dim: 1
+    pred_weight: 0.0001
+data:
+  universe: csi800
+  data_path: ./dataset/processed
+  window_size: 20
+  step: 1
+  train_period:
+  - '2009-01-01'
+  - '2020-12-31'
+  valid_period:
+  - '2021-01-01'
+  - '2022-12-31'
+  test_period:
+  - '2023-01-01'
+  - '2025-12-31'
+stage2_presets:
+  csi800:
+    predictor:
+      aux_weight: 0.01
+      n_expert: 2
+      transformer:
+        num_heads: 2
+  csi300:
+    predictor:
+      aux_weight: 0.01
+      n_expert: 2
+      transformer:
+        num_heads: 2
+  sp500:
+    predictor:
+      aux_weight: 0.001
+      n_expert: 8
+      transformer:
+        num_heads: 4
+predictor:
+  saved_model: ./artifacts/research/batch0809_20261108/batch08_20261108/csi800/fsq_ifsq/stage1/seed42/checkpoints/seed42-epoch=31-val_loss=0.355727.ckpt
+  num_features: 158
+  individual: false
+  aux_weight: 0.01
+  kernel_size: 3
+  k: 1
+  n_expert: 2
+  pred_len: 20
+  moe_hidden: 64
+  shared_expert: true
+  dropout: 0.1
+  transformer:
+    pe_kind: rope
+    num_heads: 2
+    num_layers: 1
+    d_model: 64
+    dim_feedforward: 128
+    dropout: 0.1
+    batch_first: true
+    prepend_structure_token: true
+  rank: 0
+  target_day: 5
+  use_prior: true
+  aux_imp: 3
+  quantization_confidence_adapter: true
+  vq_embed_dim: 128
+train:
+  seed: 0
+  device: cuda
+  batch_size: 300
+  learning_rate: 0.0001
+  num_epochs: 70
+  project_name: TRACE-VQ
+  wandb_mode: disabled
+  run_name: batch08_csi800_fsq_ifsq_stage2
+  gpu_counts: 1
+  precision: 32
+  num_workers: 2
+  gradient_clip_val: 1
+  save_dir: ./artifacts/research/batch0809_20261108/batch08_20261108/csi800/fsq_ifsq/stage2/seed0/checkpoints
+  save_res: ./artifacts/research/batch0809_20261108/batch08_20261108/csi800/fsq_ifsq/stage2/seed0/res
+  early_stopping:
+    monitor: val_loss
+    min_delta: 1.0e-05
+    patience: 15
+    verbose: true
+    mode: min
+hydra:
+  run:
+    dir: ./outputs
+  sweep:
+    dir: ./multirun
+  job:
+    chdir: false
+research:
+  variant: fsq_ifsq
+  batch: 8
+  family: fsq
+  item: A1
+  quantizer: ifsq
+  bound_scale: 0.8
+inference:
+  matmul_precision: high
